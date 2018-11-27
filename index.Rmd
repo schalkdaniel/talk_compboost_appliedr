@@ -58,9 +58,41 @@ mulled_wine_data = data.frame(
 )
 
 for (i in 1:200) {
+  set.seed(i * 3)
   mulled_wine_data[[paste0("noise", i)]] = runif(n = n_sim)
 }
 ```
+
+
+# Use-Case
+
+## 
+
+-   We are owners of a small stand at the Christmas market where we sell mulled wine. 
+
+-   Since we are very interested in the health of our customers, we only sell to customers who we expect to drink less than 15 litres per year.
+
+-   To estimate how much a customer will drink, we have collected data from 200 customers in recent years.
+
+-   These data include mulled wine consumption, age, sex, country of origin, weight, body size, and 200 characteristics (that have absolutely no influence).
+
+##
+
+```{r, echo=FALSE}
+knitr::kable(mulled_wine_data[1:10, 1:7])
+```
+
+##
+
+With these data we want to answer the following questions:
+
+-   Which characteristics of the customer are important to be able to guess the consumption?
+-   What does the effect of important features look like?
+-   How does the model behave on unseen data?
+
+##
+
+**What can we do to respond to all the questions?**
 
 # Component-Wise Boosting
 
@@ -68,16 +100,9 @@ for (i in 1:200) {
 
 <iframe src="https://giphy.com/embed/pPhyAv5t9V8djyRFJH" width="720" height="525" frameBorder="0" class="giphy-embed" allowFullScreen></iframe><p></p>
 
-## A Small Use-Case
+## The Idea Behind Component-Wise Boosting
 
-
-
-
-# `compboost`
-
-## Why Component-Wise Boosting?
-
-![](figures/comp_boosting.png)
+![](figures/cboost_gif.svg)
 
 ## Why Component-Wise Boosting?
 
@@ -99,14 +124,14 @@ The `compboost` package is a fast and flexible framework for model-based boostin
 
 -   Major parts of the `compboost` functionality are unit tested against `mboost` to ensure correctness.
 
-# Example
+# Use-Case
 
 ## `compboost`
 
 ```{r cars, echo = TRUE}
 cboost = boostSplines(data = mulled_wine_data, target = "mw_consumption", 
-  loss = LossQuadratic$new(), learning.rate = 0.005, iterations = 3000L, 
-  trace = 600L, n.knots = 10, degree = 3)
+  loss = LossQuadratic$new(), learning.rate = 0.005, iterations = 3000, 
+  trace = 600)
 ```
 
 ## Effect Visualization
@@ -139,10 +164,10 @@ cboost = Compboost$new(data = mulled_wine_data[idx_train,],
 for (feature_name in setdiff(names(mulled_wine_data), target)) {
   if (feature_name %in% c("gender", "country")) {
     cboost$addBaselearner(feature = feature_name, id = "category", 
-      bl.factory = BaselearnerPolynomial, degree = 1L, intercept = FALSE)
+      bl.factory = BaselearnerPolynomial, degree = 1, intercept = FALSE)
   } else {
     cboost$addBaselearner(feature = feature_name, id = "spline", 
-      bl.factory = BaselearnerPSpline, degree = 3L, n.knots = 10L)
+      bl.factory = BaselearnerPSpline, degree = 3, n.knots = 10)
   }
 }
 ```
@@ -161,7 +186,7 @@ cboost$addLogger(logger = LoggerOobRisk, use.as.stopper = FALSE,
   eps.for.break = 0, oob.data = oob_data, 
   oob.response = mulled_wine_data$mw_consumption[idx_test])
 
-cboost$train(3000L, trace = 1500L)
+cboost$train(3000, trace = 1500)
 
 inbag_trace = cboost$getInbagRisk()[-1]
 logger_data = cboost$getLoggerData()
@@ -169,7 +194,7 @@ logger_data = cboost$getLoggerData()
 risk_data = data.frame(
   risk = c(inbag_trace, logger_data[["oob_logger"]]),
   type = rep(c("inbag", "oob"), each = length(inbag_trace)),
-  iter = rep(seq_along(inbag_trace), times = 2L)
+  iter = rep(seq_along(inbag_trace), times = 2)
 )
 ```
 
@@ -184,7 +209,7 @@ ggplot(data = risk_data, aes(x = iter, y = risk, color = type)) +
 ## Early Stopping
 
 ```{r}
-cboost$train(980L)
+cboost$train(980)
 ```
 
 ## Feature Importance
@@ -239,16 +264,8 @@ my_poisson_loss = LossCustom$new(lossPoi, gradPoi, constInitPoi)
 ```{r}
 cboost = boostSplines(data = mulled_wine_data, target = "mw_consumption", 
   optimizer = OptimizerCoordinateDescent$new(), loss = my_poisson_loss, 
-  learning.rate = 0.005, iterations = 3000L, trace = 600L, n.knots = 10, 
+  learning.rate = 0.005, iterations = 3000, trace = 600, n.knots = 10, 
   degree = 3)
-```
-
-## Using Custom Losses
-
-```{r}
-params = cboost$getEstimatedCoef()
-params[["country_Seychelles_category"]]
-params[["country_Poland_category"]]
 ```
 
 # From C++ to R
@@ -257,13 +274,15 @@ params[["country_Poland_category"]]
 
 -   Conversion between `R` and `C++` data structures, such as vectors, matrices, or even whole classes
 -   Seamless integration of [Armadillo](http://arma.sourceforge.net/) for linear algebra
--   Complicated stuff like compilation, or again, the conversion between `R` and `C++` is handled automatically
+-   Complicated stuff like compilation, or again, the conversion between `R` and `C++` are handled automatically
 
 ## C++ to R Wrap Up
 
-## Problems With Rcpp
+## Problems When Using C++
 
-
+-   Save object is not possible at the moment <!-- serialization is not done automatically-->
+-   Memory managing is not easy $\Rightarrow$ Segmentation folds may happen
+-   
 
 # What Happens Next?
 
