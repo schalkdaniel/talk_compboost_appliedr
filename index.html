@@ -521,7 +521,7 @@ document.getElementsByTagName('head')[0].appendChild(style);
     <h2 class="author"><a href='danielschalk.com' target='_blank'>Daniel Schalk</a></h2>
     <h3 class="date">November 29, 2018
 <div style="margin-top:50px;">
-<a href='https://github.com/schalkdaniel/talk_compboost_appliedr' target='_blank'><i style='margin-right:70px;' class='fab fa-github fa-3x'></i></a><a href='https://twitter.com/DanielSchalk242' target='_blank'><i class='fab fa-twitter fa-3x'></i></a>
+<a href='https://github.com/schalkdaniel' target='_blank'><i style='margin-right:70px;' class='fab fa-github fa-3x'></i></a><a href='https://twitter.com/DanielSchalk242' target='_blank'><i class='fab fa-twitter fa-3x'></i></a>
 </div></h3>
 </section>
 
@@ -534,25 +534,153 @@ document.getElementsByTagName('head')[0].appendChild(style);
 </section><section id="a-small-use-case" class="slide level2">
 <h2>A Small Use-Case</h2>
 </section></section>
-<section><section id="compboost" class="title-slide slide level1"><h1><code>compboost</code></h1></section><section id="compboost-1" class="slide level2">
+<section><section id="compboost" class="title-slide slide level1"><h1><code>compboost</code></h1></section><section id="why-component-wise-boosting" class="slide level2">
+<h2>Why Component-Wise Boosting?</h2>
+<p><img data-src="figures/comp_boosting.png" /></p>
+</section><section id="why-component-wise-boosting-1" class="slide level2">
+<h2>Why Component-Wise Boosting?</h2>
+<ul>
+<li><p>Inherent (unbiased) feature selection.</p></li>
+<li><p>Resulting model is sparse since important effects are selected first and therefore it is able to learn in high-dimensional feature spaces (<span class="math inline">\(p \gg n\)</span>).</p></li>
+<li><p>Parameters are updated iteratively. Therefore, the whole trace of how the model evolves is available.</p></li>
+</ul>
+</section><section id="about-compboost" class="slide level2">
+<h2>About <code>compboost</code></h2>
+<p>The <code>compboost</code> package is a fast and flexible framework for model-based boosting completely written in <code>C++</code>:</p>
+<ul>
+<li><p>With <code>mboost</code> as standard, we want to keep the modular principle of defining custom base-learner and losses.</p></li>
+<li><p>Completely written in <code>C++</code> and exposed by <code>Rcpp</code> to obtain high performance and full memory control.</p></li>
+<li><p><code>R</code> API is written in <code>R6</code> to provide convenient wrapper.</p></li>
+<li><p>Major parts of the <code>compboost</code> functionality are unit tested against <code>mboost</code> to ensure correctness.</p></li>
+</ul>
+</section></section>
+<section><section id="example" class="title-slide slide level1"><h1>Example</h1></section><section id="compboost-1" class="slide level2">
 <h2><code>compboost</code></h2>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1">cboost =<span class="st"> </span><span class="kw">boostSplines</span>(<span class="dt">data =</span> beer_data, <span class="dt">target =</span> <span class="st">&quot;beer_consumption&quot;</span>, </a>
-<a class="sourceLine" id="cb1-2" data-line-number="2">  <span class="dt">optimizer =</span> OptimizerCoordinateDescent<span class="op">$</span><span class="kw">new</span>(), <span class="dt">loss =</span> LossQuadratic<span class="op">$</span><span class="kw">new</span>(), </a>
-<a class="sourceLine" id="cb1-3" data-line-number="3">  <span class="dt">learning.rate =</span> <span class="fl">0.01</span>, <span class="dt">iterations =</span> 1000L, <span class="dt">trace =</span> 200L)</a>
-<a class="sourceLine" id="cb1-4" data-line-number="4"><span class="co">##    1/1000: risk = 3.5e+02</span></a>
-<a class="sourceLine" id="cb1-5" data-line-number="5"><span class="co">##  200/1000: risk = 1.3e+02</span></a>
-<a class="sourceLine" id="cb1-6" data-line-number="6"><span class="co">##  400/1000: risk = 60</span></a>
-<a class="sourceLine" id="cb1-7" data-line-number="7"><span class="co">##  600/1000: risk = 33</span></a>
-<a class="sourceLine" id="cb1-8" data-line-number="8"><span class="co">##  800/1000: risk = 22</span></a>
-<a class="sourceLine" id="cb1-9" data-line-number="9"><span class="co">## 1000/1000: risk = 18</span></a>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1">cboost =<span class="st"> </span><span class="kw">boostSplines</span>(<span class="dt">data =</span> mulled_wine_data, <span class="dt">target =</span> <span class="st">&quot;mw_consumption&quot;</span>, </a>
+<a class="sourceLine" id="cb1-2" data-line-number="2">  <span class="dt">loss =</span> LossQuadratic<span class="op">$</span><span class="kw">new</span>(), <span class="dt">learning.rate =</span> <span class="fl">0.005</span>, <span class="dt">iterations =</span> 3000L, </a>
+<a class="sourceLine" id="cb1-3" data-line-number="3">  <span class="dt">trace =</span> 600L, <span class="dt">n.knots =</span> <span class="dv">10</span>, <span class="dt">degree =</span> <span class="dv">3</span>)</a>
+<a class="sourceLine" id="cb1-4" data-line-number="4"><span class="co">##    1/3000   risk = 7.4  </span></a>
+<a class="sourceLine" id="cb1-5" data-line-number="5"><span class="co">##  600/3000   risk = 3.6  </span></a>
+<a class="sourceLine" id="cb1-6" data-line-number="6"><span class="co">## 1200/3000   risk = 2.4  </span></a>
+<a class="sourceLine" id="cb1-7" data-line-number="7"><span class="co">## 1800/3000   risk = 1.8  </span></a>
+<a class="sourceLine" id="cb1-8" data-line-number="8"><span class="co">## 2400/3000   risk = 1.4  </span></a>
+<a class="sourceLine" id="cb1-9" data-line-number="9"><span class="co">## 3000/3000   risk = 1.1  </span></a>
 <a class="sourceLine" id="cb1-10" data-line-number="10"><span class="co">## </span></a>
 <a class="sourceLine" id="cb1-11" data-line-number="11"><span class="co">## </span></a>
-<a class="sourceLine" id="cb1-12" data-line-number="12"><span class="co">## Train 1000 iterations in 0 Seconds.</span></a>
-<a class="sourceLine" id="cb1-13" data-line-number="13"><span class="co">## Final risk based on the train set: 18</span></a></code></pre></div>
-</section><section id="visualization" class="slide level2">
-<h2>Visualization</h2>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1">cboost<span class="op">$</span><span class="kw">plot</span>(<span class="st">&quot;age_spline&quot;</span>, <span class="dt">iters =</span> <span class="kw">c</span>(<span class="dv">10</span>, <span class="dv">100</span>, <span class="dv">500</span>, <span class="dv">1000</span>))</a></code></pre></div>
-<p><img src="index_files/figure-revealjs/unnamed-chunk-3-1.png" width="50%" style="display: block; margin: auto;" /></p>
+<a class="sourceLine" id="cb1-12" data-line-number="12"><span class="co">## Train 3000 iterations in 4 Seconds.</span></a>
+<a class="sourceLine" id="cb1-13" data-line-number="13"><span class="co">## Final risk based on the train set: 1.1</span></a></code></pre></div>
+</section><section id="effect-visualization" class="slide level2">
+<h2>Effect Visualization</h2>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1">cboost<span class="op">$</span><span class="kw">plot</span>(<span class="st">&quot;age_spline&quot;</span>, <span class="dt">iters =</span> <span class="kw">c</span>(<span class="dv">200</span>, <span class="dv">500</span>, <span class="dv">1000</span>, <span class="dv">3000</span>))</a></code></pre></div>
+<p><img src="index_files/figure-revealjs/unnamed-chunk-3-1.png" width="70%" style="display: block; margin: auto;" /></p>
+</section><section id="early-stopping" class="slide level2">
+<h2>Early Stopping</h2>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1">n_data =<span class="st"> </span><span class="kw">nrow</span>(mulled_wine_data)</a>
+<a class="sourceLine" id="cb3-2" data-line-number="2">idx_train =<span class="st"> </span><span class="kw">sample</span>(<span class="dt">x =</span> <span class="kw">seq_len</span>(n_data), <span class="dt">size =</span> n_data <span class="op">*</span><span class="st"> </span><span class="fl">0.75</span>)</a>
+<a class="sourceLine" id="cb3-3" data-line-number="3">idx_test =<span class="st"> </span><span class="kw">setdiff</span>(<span class="dt">x =</span> <span class="kw">seq_len</span>(n_data), idx_train)</a></code></pre></div>
+</section><section id="early-stopping-1" class="slide level2">
+<h2>Early Stopping</h2>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1">target =<span class="st"> &quot;mw_consumption&quot;</span></a>
+<a class="sourceLine" id="cb4-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb4-3" data-line-number="3">cboost =<span class="st"> </span>Compboost<span class="op">$</span><span class="kw">new</span>(<span class="dt">data =</span> mulled_wine_data[idx_train,], </a>
+<a class="sourceLine" id="cb4-4" data-line-number="4">  <span class="dt">target =</span> target, <span class="dt">loss =</span> LossQuadratic<span class="op">$</span><span class="kw">new</span>(), <span class="dt">learning.rate =</span> <span class="fl">0.005</span>)</a>
+<a class="sourceLine" id="cb4-5" data-line-number="5"></a>
+<a class="sourceLine" id="cb4-6" data-line-number="6"><span class="cf">for</span> (feature_name <span class="cf">in</span> <span class="kw">setdiff</span>(<span class="kw">names</span>(mulled_wine_data), target)) {</a>
+<a class="sourceLine" id="cb4-7" data-line-number="7">  <span class="cf">if</span> (feature_name <span class="op">%in%</span><span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;gender&quot;</span>, <span class="st">&quot;country&quot;</span>)) {</a>
+<a class="sourceLine" id="cb4-8" data-line-number="8">    cboost<span class="op">$</span><span class="kw">addBaselearner</span>(<span class="dt">feature =</span> feature_name, <span class="dt">id =</span> <span class="st">&quot;category&quot;</span>, </a>
+<a class="sourceLine" id="cb4-9" data-line-number="9">      <span class="dt">bl.factory =</span> BaselearnerPolynomial, <span class="dt">degree =</span> 1L, <span class="dt">intercept =</span> <span class="ot">FALSE</span>)</a>
+<a class="sourceLine" id="cb4-10" data-line-number="10">  } <span class="cf">else</span> {</a>
+<a class="sourceLine" id="cb4-11" data-line-number="11">    cboost<span class="op">$</span><span class="kw">addBaselearner</span>(<span class="dt">feature =</span> feature_name, <span class="dt">id =</span> <span class="st">&quot;spline&quot;</span>, </a>
+<a class="sourceLine" id="cb4-12" data-line-number="12">      <span class="dt">bl.factory =</span> BaselearnerPSpline, <span class="dt">degree =</span> 3L, <span class="dt">n.knots =</span> 10L)</a>
+<a class="sourceLine" id="cb4-13" data-line-number="13">  }</a>
+<a class="sourceLine" id="cb4-14" data-line-number="14">}</a></code></pre></div>
+</section><section id="early-stopping-2" class="slide level2">
+<h2>Early Stopping</h2>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1">oob_data =<span class="st"> </span>cboost<span class="op">$</span><span class="kw">prepareData</span>(mulled_wine_data[idx_test,])</a></code></pre></div>
+</section><section id="early-stopping-3" class="slide level2">
+<h2>Early Stopping</h2>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" data-line-number="1">cboost<span class="op">$</span><span class="kw">addLogger</span>(<span class="dt">logger =</span> LoggerOobRisk, <span class="dt">use.as.stopper =</span> <span class="ot">FALSE</span>, </a>
+<a class="sourceLine" id="cb6-2" data-line-number="2">  <span class="dt">logger.id =</span> <span class="st">&quot;oob_logger&quot;</span>, <span class="dt">used.loss =</span> LossQuadratic<span class="op">$</span><span class="kw">new</span>(), </a>
+<a class="sourceLine" id="cb6-3" data-line-number="3">  <span class="dt">eps.for.break =</span> <span class="dv">0</span>, <span class="dt">oob.data =</span> oob_data, </a>
+<a class="sourceLine" id="cb6-4" data-line-number="4">  <span class="dt">oob.response =</span> mulled_wine_data<span class="op">$</span>mw_consumption[idx_test])</a>
+<a class="sourceLine" id="cb6-5" data-line-number="5"></a>
+<a class="sourceLine" id="cb6-6" data-line-number="6">cboost<span class="op">$</span><span class="kw">train</span>(3000L, <span class="dt">trace =</span> 1500L)</a>
+<a class="sourceLine" id="cb6-7" data-line-number="7"><span class="co">##    1/3000   risk = 7.7  oob_logger = 6.7   </span></a>
+<a class="sourceLine" id="cb6-8" data-line-number="8"><span class="co">## 1500/3000   risk = 2  oob_logger = 3.6   </span></a>
+<a class="sourceLine" id="cb6-9" data-line-number="9"><span class="co">## 3000/3000   risk = 0.84  oob_logger = 3.7   </span></a>
+<a class="sourceLine" id="cb6-10" data-line-number="10"><span class="co">## </span></a>
+<a class="sourceLine" id="cb6-11" data-line-number="11"><span class="co">## </span></a>
+<a class="sourceLine" id="cb6-12" data-line-number="12"><span class="co">## Train 3000 iterations in 4 Seconds.</span></a>
+<a class="sourceLine" id="cb6-13" data-line-number="13"><span class="co">## Final risk based on the train set: 0.84</span></a>
+<a class="sourceLine" id="cb6-14" data-line-number="14"></a>
+<a class="sourceLine" id="cb6-15" data-line-number="15">inbag_trace =<span class="st"> </span>cboost<span class="op">$</span><span class="kw">getInbagRisk</span>()[<span class="op">-</span><span class="dv">1</span>]</a>
+<a class="sourceLine" id="cb6-16" data-line-number="16">logger_data =<span class="st"> </span>cboost<span class="op">$</span><span class="kw">getLoggerData</span>()</a>
+<a class="sourceLine" id="cb6-17" data-line-number="17"></a>
+<a class="sourceLine" id="cb6-18" data-line-number="18">risk_data =<span class="st"> </span><span class="kw">data.frame</span>(</a>
+<a class="sourceLine" id="cb6-19" data-line-number="19">  <span class="dt">risk =</span> <span class="kw">c</span>(inbag_trace, logger_data[[<span class="st">&quot;oob_logger&quot;</span>]]),</a>
+<a class="sourceLine" id="cb6-20" data-line-number="20">  <span class="dt">type =</span> <span class="kw">rep</span>(<span class="kw">c</span>(<span class="st">&quot;inbag&quot;</span>, <span class="st">&quot;oob&quot;</span>), <span class="dt">each =</span> <span class="kw">length</span>(inbag_trace)),</a>
+<a class="sourceLine" id="cb6-21" data-line-number="21">  <span class="dt">iter =</span> <span class="kw">rep</span>(<span class="kw">seq_along</span>(inbag_trace), <span class="dt">times =</span> 2L)</a>
+<a class="sourceLine" id="cb6-22" data-line-number="22">)</a></code></pre></div>
+</section><section id="early-stopping-4" class="slide level2">
+<h2>Early Stopping</h2>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" data-line-number="1"><span class="kw">ggplot</span>(<span class="dt">data =</span> risk_data, <span class="kw">aes</span>(<span class="dt">x =</span> iter, <span class="dt">y =</span> risk, <span class="dt">color =</span> type)) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb7-2" data-line-number="2"><span class="st">  </span><span class="kw">geom_line</span>() <span class="op">+</span><span class="st"> </span><span class="kw">theme_tufte</span>() <span class="op">+</span><span class="st"> </span><span class="kw">scale_color_brewer</span>(<span class="dt">palette =</span> <span class="st">&quot;Set1&quot;</span>)</a></code></pre></div>
+<p><img src="index_files/figure-revealjs/unnamed-chunk-8-1.png" width="70%" style="display: block; margin: auto;" /></p>
+</section><section id="early-stopping-5" class="slide level2">
+<h2>Early Stopping</h2>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" data-line-number="1">cboost<span class="op">$</span><span class="kw">train</span>(980L)</a></code></pre></div>
+</section><section id="feature-importance" class="slide level2">
+<h2>Feature Importance</h2>
+<p><img src="index_files/figure-revealjs/unnamed-chunk-10-1.png" width="70%" style="display: block; margin: auto;" /></p>
+</section><section id="using-custom-losses" class="slide level2">
+<h2>Using Custom Losses</h2>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" data-line-number="1">lossPoi =<span class="st"> </span><span class="cf">function</span> (truth, pred) {</a>
+<a class="sourceLine" id="cb9-2" data-line-number="2">  <span class="kw">return</span> (<span class="op">-</span><span class="kw">log</span>(<span class="kw">exp</span>(pred)<span class="op">^</span>truth <span class="op">*</span><span class="st"> </span><span class="kw">exp</span>(<span class="op">-</span><span class="kw">exp</span>(pred)) <span class="op">/</span><span class="st"> </span><span class="kw">gamma</span>(truth <span class="op">+</span><span class="st"> </span><span class="dv">1</span>)))</a>
+<a class="sourceLine" id="cb9-3" data-line-number="3">}</a>
+<a class="sourceLine" id="cb9-4" data-line-number="4">gradPoi =<span class="st"> </span><span class="cf">function</span> (truth, pred) {</a>
+<a class="sourceLine" id="cb9-5" data-line-number="5">  <span class="kw">return</span> (<span class="kw">exp</span>(pred) <span class="op">-</span><span class="st"> </span>truth)</a>
+<a class="sourceLine" id="cb9-6" data-line-number="6">}</a>
+<a class="sourceLine" id="cb9-7" data-line-number="7">constInitPoi =<span class="st"> </span><span class="cf">function</span> (truth) {</a>
+<a class="sourceLine" id="cb9-8" data-line-number="8">  <span class="kw">return</span> (<span class="kw">log</span>(<span class="kw">mean.default</span>(truth)))</a>
+<a class="sourceLine" id="cb9-9" data-line-number="9">}</a>
+<a class="sourceLine" id="cb9-10" data-line-number="10"><span class="co"># Define custom loss:</span></a>
+<a class="sourceLine" id="cb9-11" data-line-number="11">my_poisson_loss =<span class="st"> </span>LossCustom<span class="op">$</span><span class="kw">new</span>(lossPoi, gradPoi, constInitPoi)</a></code></pre></div>
+</section><section id="using-custom-losses-1" class="slide level2">
+<h2>Using Custom Losses</h2>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" data-line-number="1">cboost =<span class="st"> </span><span class="kw">boostSplines</span>(<span class="dt">data =</span> mulled_wine_data, <span class="dt">target =</span> <span class="st">&quot;mw_consumption&quot;</span>, </a>
+<a class="sourceLine" id="cb10-2" data-line-number="2">  <span class="dt">optimizer =</span> OptimizerCoordinateDescent<span class="op">$</span><span class="kw">new</span>(), <span class="dt">loss =</span> my_poisson_loss, </a>
+<a class="sourceLine" id="cb10-3" data-line-number="3">  <span class="dt">learning.rate =</span> <span class="fl">0.005</span>, <span class="dt">iterations =</span> 3000L, <span class="dt">trace =</span> 600L, <span class="dt">n.knots =</span> <span class="dv">10</span>, </a>
+<a class="sourceLine" id="cb10-4" data-line-number="4">  <span class="dt">degree =</span> <span class="dv">3</span>)</a>
+<a class="sourceLine" id="cb10-5" data-line-number="5"><span class="co">##    1/3000   risk = 3.3  </span></a>
+<a class="sourceLine" id="cb10-6" data-line-number="6"><span class="co">##  600/3000   risk = 1.5  </span></a>
+<a class="sourceLine" id="cb10-7" data-line-number="7"><span class="co">## 1200/3000   risk = 1.2  </span></a>
+<a class="sourceLine" id="cb10-8" data-line-number="8"><span class="co">## 1800/3000   risk = 1.1  </span></a>
+<a class="sourceLine" id="cb10-9" data-line-number="9"><span class="co">## 2400/3000   risk = 1  </span></a>
+<a class="sourceLine" id="cb10-10" data-line-number="10"><span class="co">## 3000/3000   risk = 0.95  </span></a>
+<a class="sourceLine" id="cb10-11" data-line-number="11"><span class="co">## </span></a>
+<a class="sourceLine" id="cb10-12" data-line-number="12"><span class="co">## </span></a>
+<a class="sourceLine" id="cb10-13" data-line-number="13"><span class="co">## Train 3000 iterations in 4 Seconds.</span></a>
+<a class="sourceLine" id="cb10-14" data-line-number="14"><span class="co">## Final risk based on the train set: 0.95</span></a></code></pre></div>
+</section><section id="using-custom-losses-2" class="slide level2">
+<h2>Using Custom Losses</h2>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb11-1" data-line-number="1">params =<span class="st"> </span>cboost<span class="op">$</span><span class="kw">getEstimatedCoef</span>()</a>
+<a class="sourceLine" id="cb11-2" data-line-number="2">params[[<span class="st">&quot;country_Seychelles_category&quot;</span>]]</a>
+<a class="sourceLine" id="cb11-3" data-line-number="3"><span class="co">##       [,1]</span></a>
+<a class="sourceLine" id="cb11-4" data-line-number="4"><span class="co">## [1,] 1.243</span></a>
+<a class="sourceLine" id="cb11-5" data-line-number="5">params[[<span class="st">&quot;country_Poland_category&quot;</span>]]</a>
+<a class="sourceLine" id="cb11-6" data-line-number="6"><span class="co">##         [,1]</span></a>
+<a class="sourceLine" id="cb11-7" data-line-number="7"><span class="co">## [1,] -0.7579</span></a></code></pre></div>
+</section></section>
+<section><section id="from-c-to-r" class="title-slide slide level1"><h1>From C++ to R</h1></section><section id="rcpp" class="slide level2">
+<h2>Rcpp</h2>
+</section></section>
+<section><section id="what-happens-next" class="title-slide slide level1"><h1>What Happens Next?</h1></section><section id="section" class="slide level2">
+<h2></h2>
+<ul>
+<li>bli</li>
+<li>bla</li>
+<li>blu</li>
+</ul>
 </section></section>
 <section><section id="thanks-for-your-attention" class="title-slide slide level1"><h1>Thanks for your attention!</h1></section><section id="credits" class="slide level2">
 <h2>Credits</h2>
