@@ -1,0 +1,95 @@
+---
+title: "<code>compboost</code>"
+subtitle: "Fast and Flexible Component-Wise Boosting"
+author: "<a href='' target='_blank'>Daniel Schalk</a>"
+date: "November 29, 2018<div style='margin-top:50px;'><a href='' target='_blank'><i style='margin-right:70px;' class='fab fa-linkedin fa-3x'></i></a><a href='https://github.com/schalkdaniel/revealjsRmd' target='_blank'><i style='margin-right:70px;' class='fab fa-github fa-3x'></i></a><a href='' target='_blank'><i class='fab fa-twitter fa-3x'></i></a></div>"
+output:
+  revealjs::revealjs_presentation:
+    css: myreveal.css
+    transition: slide
+    includes:
+      in_header: header.html
+      after_body: after.html
+    self_contained: false
+    reveal_options:
+      controls: true
+      controlsTutorial: true
+      center: true
+      slideNumber: true
+---
+
+```{r, include=FALSE}
+knitr::opts_chunk$set(collapse = TRUE, fig.align="center", out.width="50%")
+
+library(compboost)
+library(ggthemes)
+
+n_sim = 1000
+
+set.seed(314159)
+
+country = sample(x = c("Austria", "Seychelles", "Germany", "Poland", "Ireland"), 
+  size = n_sim, replace = TRUE)
+
+country_biases = c(Austria = 104, Seychelles = 135, Germany = 104, Poland = 98, 
+  Ireland = 97)
+
+age = sample(x = 16:70, size = n_sim, replace = TRUE)
+contr_age = 10 - 0.1 * (age - 16)^2 + 0.002 * (age - 16)^3
+
+gender = sample(x = c("m", "f"), size = n_sim, replace = TRUE)
+gender_biases = c(m = 10, f = -20)
+
+beer_consumption = country_biases[country] + gender_biases[gender] + contr_age + rnorm(n = n_sim, mean = 0, sd = 5)
+
+beer_data = data.frame(
+  beer_consumption = beer_consumption, 
+  gender = gender, 
+  country = country, 
+  age = age,
+  weight = runif(n = n_sim, min = 60, max = 120),
+  height = runif(n = n_sim, min = 156, max = 204)
+)
+```
+
+# Component-Wise Boosting
+
+## Component ... what?
+
+<iframe src="https://giphy.com/embed/pPhyAv5t9V8djyRFJH" width="720" height="525" frameBorder="0" class="giphy-embed" allowFullScreen></iframe><p></p>
+
+## A Small Use-Case
+
+
+# `compboost`
+
+## `compboost`
+
+```{r cars, echo = TRUE}
+cboost = boostSplines(data = beer_data, target = "beer_consumption", 
+  optimizer = OptimizerCoordinateDescent$new(), loss = LossQuadratic$new(), 
+  learning.rate = 0.01, iterations = 1000L, trace = 200L)
+```
+
+## Visualization
+
+```{r, eval=FALSE}
+cboost$plot("age_spline", iters = c(10, 100, 500, 1000))
+```
+```{r, echo=FALSE}
+cboost$plot("age_spline", iters = c(10, 100, 500, 1000)) +
+  ghem
+```
+
+
+# Thanks for your attention!
+
+## Credits
+
+- [**revealjs**](https://revealjs.com/)
+- [**Font-Awesome:**](https://www.google.com)
+- [**rmarkdown**](https://rmarkdown.rstudio.com/)
+- [**revealjs (R Package)**](https://cran.r-project.org/web/packages/revealjs/index.html)
+- [**Google Fonts**](https://fonts.google.com/)
+
+
