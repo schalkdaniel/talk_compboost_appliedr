@@ -1,8 +1,8 @@
 ---
 title: "<code>compboost</code>"
 subtitle: "Fast and Flexible Component-Wise Boosting"
-author: "<a href='' target='_blank'>Daniel Schalk</a>"
-date: "November 29, 2018<div style='margin-top:50px;'><a href='' target='_blank'><i style='margin-right:70px;' class='fab fa-linkedin fa-3x'></i></a><a href='https://github.com/schalkdaniel/revealjsRmd' target='_blank'><i style='margin-right:70px;' class='fab fa-github fa-3x'></i></a><a href='' target='_blank'><i class='fab fa-twitter fa-3x'></i></a></div>"
+author: "<a href='danielschalk.com' target='_blank'>Daniel Schalk</a>"
+date: "November 29, 2018<div style='margin-top:50px;'><a href='https://github.com/schalkdaniel' target='_blank'><i style='margin-right:70px;' class='fab fa-github fa-3x'></i></a><a href='https://twitter.com/DanielSchalk242' target='_blank'><i class='fab fa-twitter fa-3x'></i></a></div>"
 output:
   revealjs::revealjs_presentation:
     css: myreveal.css
@@ -78,7 +78,7 @@ cboost$plot("age_spline", iters = c(10, 100, 500, 1000))
 ```
 ```{r, echo=FALSE}
 cboost$plot("age_spline", iters = c(10, 100, 500, 1000)) +
-  ghem
+  theme_tufte()
 ```
 
 
