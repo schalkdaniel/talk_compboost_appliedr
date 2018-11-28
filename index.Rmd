@@ -19,7 +19,7 @@ output:
 ---
 
 ```{r, include=FALSE}
-knitr::opts_chunk$set(collapse = TRUE, fig.align="center", out.width="70%")
+knitr::opts_chunk$set(collapse = TRUE, fig.align = "center", out.width = "70%")
 
 # Load compboost developer version:
 devtools::load_all("../compboost")
@@ -31,7 +31,7 @@ n_sim = 200
 
 set.seed(314159)
 
-offset = 0
+offset = 14
 
 country = sample(x = c("Austria", "Seychelles", "Germany", "Poland", "Ireland"), 
   size = n_sim, replace = TRUE)
@@ -40,13 +40,13 @@ country_biases = c(Austria = 104, Seychelles = 111, Germany = 104, Poland = 98,
   Ireland = 97) - 104
 
 age = sample(x = 16:70, size = n_sim, replace = TRUE)
-contr_age = (10 - 0.1 * (age - 16)^2 + 0.002 * (age - 16)^3) / 7
+contr_age = (10 - 0.1 * (age - 16)^2 + 0.002 * (age - 16)^3) / 5
 
 gender = sample(x = c("m", "f"), size = n_sim, replace = TRUE)
 gender_biases = c(m = 5, f = -2)
 
 mw_consumption = offset + country_biases[country] + gender_biases[gender] + contr_age + rnorm(n = n_sim, mean = 0, sd = 2)
-mw_consumption = ifelse(mw_consumption < 0, 0, mw_consumption)
+mw_consumption = ifelse(mw_consumption < 0, 0, mw_consumption) / 2
 
 mulled_wine_data = data.frame(
   mw_consumption = mw_consumption,
@@ -92,13 +92,15 @@ With these data we want to answer the following questions:
 
 ##
 
+<center>
 **What can we do to respond to all the questions?**
+</center>
 
 # Component-Wise Boosting
 
-## Component ... what?
+<!-- ## Component ... what?
 
-<iframe src="https://giphy.com/embed/pPhyAv5t9V8djyRFJH" width="720" height="525" frameBorder="0" class="giphy-embed" allowFullScreen></iframe><p></p>
+<iframe src="https://giphy.com/embed/pPhyAv5t9V8djyRFJH" width="720" height="525" frameBorder="0" class="giphy-embed" allowFullScreen></iframe> -->
 
 ## The Idea Behind Component-Wise Boosting
 
@@ -124,13 +126,13 @@ The `compboost` package is a fast and flexible framework for model-based boostin
 
 -   Major parts of the `compboost` functionality are unit tested against `mboost` to ensure correctness.
 
-# Use-Case
+# Applying `compboost` to the Use-Case
 
-## `compboost`
+## Quick Start With Wrapper Functions
 
 ```{r cars, echo = TRUE}
 cboost = boostSplines(data = mulled_wine_data, target = "mw_consumption", 
-  loss = LossQuadratic$new(), learning.rate = 0.005, iterations = 3000, 
+  loss = LossQuadratic$new(), learning.rate = 0.005, iterations = 6000, 
   trace = 600)
 ```
 
@@ -144,7 +146,9 @@ cboost$plot("age_spline", iters = c(200, 500, 1000, 3000)) +
   theme_tufte() + ggplot2::scale_color_brewer(palette = "Set1")
 ```
 
-## Early Stopping
+## Inbag and OOB Behavior
+
+To get an idea, how the model behaves on unseen data we use 75 % as training data and the other 25 % of the data to calculate the out of bag (OOB) risk:
 
 ```{r, echo=-1}
 set.seed(3141)
@@ -153,18 +157,17 @@ idx_train = sample(x = seq_len(n_data), size = n_data * 0.75)
 idx_test = setdiff(x = seq_len(n_data), idx_train)
 ```
 
-## Early Stopping
+## Define Model and Base-Learner the "Object-Oriented Style"
 
 ```{r}
-target = "mw_consumption"
-
 cboost = Compboost$new(data = mulled_wine_data[idx_train,], 
-  target = target, loss = LossQuadratic$new(), learning.rate = 0.005)
+  target = "mw_consumption", loss = LossQuadratic$new(), 
+  learning.rate = 0.005)
 
 for (feature_name in setdiff(names(mulled_wine_data), target)) {
   if (feature_name %in% c("gender", "country")) {
     cboost$addBaselearner(feature = feature_name, id = "category", 
-      bl.factory = BaselearnerPolynomial, degree = 1, intercept = FALSE)
+      bl.factory = BaselearnerPolynomial, intercept = FALSE)
   } else {
     cboost$addBaselearner(feature = feature_name, id = "spline", 
       bl.factory = BaselearnerPSpline, degree = 3, n.knots = 10)
@@ -172,44 +175,73 @@ for (feature_name in setdiff(names(mulled_wine_data), target)) {
 }
 ```
 
-## Early Stopping
+## OOB Data
+
+To track the OOB risk we have to prepare the new data so that `compboost` knows the new data sources: 
 
 ```{r, warning=FALSE}
 oob_data = cboost$prepareData(mulled_wine_data[idx_test,])
+oob_response = mulled_wine_data$mw_consumption[idx_test]
 ```
 
-## Early Stopping
+## Define Logger
 
 ```{r, warning=FALSE}
-cboost$addLogger(logger = LoggerOobRisk, use.as.stopper = FALSE, 
-  logger.id = "oob_logger", used.loss = LossQuadratic$new(), 
-  eps.for.break = 0, oob.data = oob_data, 
-  oob.response = mulled_wine_data$mw_consumption[idx_test])
+cboost$addLogger(logger = LoggerOobRisk, logger.id = "oob_risk",
+  used.loss = LossQuadratic$new(), eps.for.break = 0,
+  oob.data = oob_data, oob.response = oob_response)
 
-cboost$train(3000, trace = 1500)
+cboost$addLogger(logger = LoggerTime, logger.id = "microseconds",
+  max.time = 0, time.unit = "microseconds")
 
-inbag_trace = cboost$getInbagRisk()[-1]
+cboost$train(6000, trace = 1500)
+```
+
+
+## Extract Inbag and OOB Data
+
+```{r}
+inbag_trace = cboost$getInbagRisk()
+head(inbag_trace)
+
 logger_data = cboost$getLoggerData()
+head(logger_data)
+```
+
+
+## Visualization of Inbag and OOB Risk
+
+```{r, eval=FALSE}
+oob_trace = logger_data[["oob_risk"]]
 
 risk_data = data.frame(
-  risk = c(inbag_trace, logger_data[["oob_logger"]]),
-  type = rep(c("inbag", "oob"), each = length(inbag_trace)),
-  iter = rep(seq_along(inbag_trace), times = 2)
+  risk = c(inbag_trace, oob_trace),
+  type = rep(c("inbag", "oob"), times = c(length(inbag_trace), 
+    length(oob_trace))),
+  iter = c(seq_along(inbag_trace), seq_along(oob_trace))
 )
+ggplot(risk_data, aes(x = iter, y = risk, color = type)) + geom_line()
+```
+```{r, fig.height=3, fig.width=4, out.width="50%", echo=FALSE}
+oob_trace = logger_data[["oob_risk"]]
+
+risk_data = data.frame(
+  risk = c(inbag_trace, oob_trace),
+  type = rep(c("inbag", "oob"), times = c(length(inbag_trace), 
+    length(oob_trace))),
+  iter = c(seq_along(inbag_trace), seq_along(oob_trace))
+)
+ggplot(risk_data, aes(x = iter, y = risk, color = type)) + 
+  geom_line(size = 1.1) + theme_tufte() + scale_color_brewer(palette = "Set1") + 
+  xlab("Iteration") + ylab("Risk") + labs(color = "")
 ```
 
-## Early Stopping
+
+## Set Model to a Specific Iteration
 
 ```{r}
-ggplot(data = risk_data, aes(x = iter, y = risk, color = type)) + 
-  geom_line() + theme_tufte() + scale_color_brewer(palette = "Set1")
-```
-
-
-## Early Stopping
-
-```{r}
-cboost$train(980)
+cboost$train(2200)
+cboost
 ```
 
 ## Feature Importance
@@ -217,7 +249,7 @@ cboost$train(980)
 ```{r, echo=FALSE}
 oob_trace = c(
   mean(0.5 * (mulled_wine_data$mw_consumption[idx_test] - cboost$model$getOffset())^2),
-  cboost$getLoggerData()[["oob_logger"]]
+  cboost$getLoggerData()[["oob_risk"]]
 )
 
 # feature importance:
@@ -243,7 +275,13 @@ top15_oob %>%
     guides(fill = guide_legend(title = "Risk Type"))
 ```
 
-## Using Custom Losses
+<!-- ## Retrain the Model
+
+```{r}
+cboost$train(10000)
+```
+ -->
+## Using Custom Losses - Defining a Loss
 
 ```{r}
 lossPoi = function (truth, pred) {
@@ -256,33 +294,44 @@ constInitPoi = function (truth) {
   return (log(mean.default(truth)))
 }
 # Define custom loss:
-my_poisson_loss = LossCustom$new(lossPoi, gradPoi, constInitPoi)
+my_custom_loss = LossCustom$new(lossPoi, gradPoi, constInitPoi)
 ```
 
-## Using Custom Losses
+## Using Custom Losses - Using the Loss
 
 ```{r}
 cboost = boostSplines(data = mulled_wine_data, target = "mw_consumption", 
-  optimizer = OptimizerCoordinateDescent$new(), loss = my_poisson_loss, 
-  learning.rate = 0.005, iterations = 3000, trace = 600, n.knots = 10, 
+  optimizer = OptimizerCoordinateDescent$new(), loss = my_custom_loss, 
+  learning.rate = 0.005, iterations = 500, trace = 100, n.knots = 10, 
   degree = 3)
 ```
+
+## Further Functionalities
+
+-   Each logger can also be used as stopper, therefore we can use them for early stopping
+
+-   In combination with the custom loss, we can use the OOB logger to track performance measures like the AUC (in binary classification)
+
+-   Losses and base-learner can also be directly extended using `C++` (see `getCustomCppExample()`)
 
 # From C++ to R
 
 ## Rcpp
 
--   Conversion between `R` and `C++` data structures, such as vectors, matrices, or even whole classes
+-   Automated conversion between `R` and `C++` data structures, such as vectors, matrices, or even whole classes
 -   Seamless integration of [Armadillo](http://arma.sourceforge.net/) for linear algebra
 -   Complicated stuff like compilation, or again, the conversion between `R` and `C++` are handled automatically
 
-## C++ to R Wrap Up
+## C++ to R Wrap Up of `compboost`
 
-## Problems When Using C++
+![](figures/cboost_cpp_r_wrapup.svg)
 
--   Save object is not possible at the moment <!-- serialization is not done automatically-->
--   Memory managing is not easy $\Rightarrow$ Segmentation folds may happen
--   
+## Problems When Using C++ and Rcpp
+
+-   Saving object is not possible at the moment <!-- serialization is not done automatically-->
+-   Memory managing is not easy $\Rightarrow$ Segmentation folds or memory leaks may happen
+-   Exported API of classes is not very telling
+-   Debugging of `C++` from `R` can be very annoying and time-consuming
 
 # What Happens Next?
 
