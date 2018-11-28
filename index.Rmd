@@ -49,7 +49,8 @@ mw_consumption = offset + country_biases[country] + gender_biases[gender] + cont
 mw_consumption = ifelse(mw_consumption < 0, 0, mw_consumption) / 2
 
 mulled_wine_data = data.frame(
-  mw_consumption = mw_consumption,
+  mw_consumption = round(mw_consumption / 0.3) * 0.3,
+  mw_consumption_cups = round(mw_consumption / 0.3),
   gender = gender,
   country = country,
   age = age,
@@ -68,33 +69,56 @@ for (i in 1:200) {
 
 ## 
 
--   We are owners of a small stand at the Christmas market where we sell mulled wine. 
+-   We own a small booth at the Christmas market that sells mulled wine. 
 
--   Since we are very interested in the health of our customers, we only sell to customers who we expect to drink less than 15 litres per year.
+-   As we are very interested in our customers' health, we only sell to customers who we expect to drink less than 15 liters per season.
 
--   To estimate how much a customer will drink, we have collected data from 200 customers in recent years.
+-   To estimate how much a customer drinks, we have collected data from 200 customers in recent years.
 
--   These data include mulled wine consumption, age, sex, country of origin, weight, body size, and 200 characteristics (that have absolutely no influence).
+-   These data include mulled wine consumption (in liter and cups), age, sex, country of origin, weight, body size, and 200 characteristics (that have absolutely no influence).
 
 ##
 
 ```{r, echo=FALSE}
-knitr::kable(mulled_wine_data[1:10, 1:7])
+knitr::kable(mulled_wine_data[1:10, 1:8])
 ```
 
 ##
 
 With these data we want to answer the following questions:
 
--   Which characteristics of the customer are important to be able to guess the consumption?
--   What does the effect of important features look like?
+-   Which of the customers' characteristics are important to be able to determine the consumption?
+-   How does the effect of important features look like?
 -   How does the model behave on unseen data?
 
 ##
 
 <center>
-**What can we do to respond to all the questions?**
+**What can we do to answer all the questions?**
 </center>
+
+- Fit a linear model?
+- Fit a linear model on each feature and build the ensemble?
+- Fit a regularized linear model?
+- Train a random forest?
+
+##
+
+<center>
+**What can we do to answer all the questions?**
+</center>
+
+- Fit a linear model? \
+  $\rightarrow$ Not possible $p > n$
+
+- Fit a linear model on each feature and build the ensemble? \
+  $\rightarrow$ Possible, but how should we determine important effects?
+
+- Train a random forest? \
+  $\rightarrow$ Possible, but we want to interpret the effects.
+
+- Fit a regularized linear model? \
+  $\rightarrow$ Possible, and basically the same as component-wise boosting.
 
 # Component-Wise Boosting
 
@@ -102,7 +126,7 @@ With these data we want to answer the following questions:
 
 <iframe src="https://giphy.com/embed/pPhyAv5t9V8djyRFJH" width="720" height="525" frameBorder="0" class="giphy-embed" allowFullScreen></iframe> -->
 
-## The Idea Behind Component-Wise Boosting
+## The Idea of Component-Wise Boosting
 
 ![](figures/cboost_gif.svg)
 
@@ -131,7 +155,7 @@ The `compboost` package is a fast and flexible framework for model-based boostin
 ## Quick Start With Wrapper Functions
 
 ```{r cars, echo = TRUE}
-cboost = boostSplines(data = mulled_wine_data, target = "mw_consumption", 
+cboost = boostSplines(data = mulled_wine_data[,-2], target = "mw_consumption", 
   loss = LossQuadratic$new(), learning.rate = 0.005, iterations = 6000, 
   trace = 600)
 ```
@@ -160,11 +184,11 @@ idx_test = setdiff(x = seq_len(n_data), idx_train)
 ## Define Model and Base-Learner the "Object-Oriented Style"
 
 ```{r}
-cboost = Compboost$new(data = mulled_wine_data[idx_train,], 
+cboost = Compboost$new(data = mulled_wine_data[idx_train,-2], 
   target = "mw_consumption", loss = LossQuadratic$new(), 
   learning.rate = 0.005)
 
-for (feature_name in setdiff(names(mulled_wine_data), target)) {
+for (feature_name in setdiff(names(mulled_wine_data[,-2]), target)) {
   if (feature_name %in% c("gender", "country")) {
     cboost$addBaselearner(feature = feature_name, id = "category", 
       bl.factory = BaselearnerPolynomial, intercept = FALSE)
@@ -246,42 +270,22 @@ cboost
 
 ## Feature Importance
 
-```{r, echo=FALSE}
-oob_trace = c(
-  mean(0.5 * (mulled_wine_data$mw_consumption[idx_test] - cboost$model$getOffset())^2),
-  cboost$getLoggerData()[["oob_risk"]]
-)
-
-# feature importance:
-oob_risk_reduction = -diff(oob_trace)
-fitted_base_learner = cboost$getSelectedBaselearner()
-
-vip_oob = aggregate(oob_risk_reduction, by = list(fitted_base_learner), FUN = mean)
-vip_oob_order = order(vip_oob[,2], decreasing = TRUE)
-top15_oob = vip_oob[vip_oob_order,]
-top15_oob$type = "oob"
-
-colnames(top15_oob) = c("baselearner", "risk_reduction", "type")
-
-# data_vip[["baselearner"]] = factor(data_vip[["baselearner"]], levels = risk_bl)
-
-top15_oob %>% 
-  ggplot(aes(reorder(baselearner, -risk_reduction), risk_reduction, fill = type)) + 
-    geom_bar(stat = "identity", position = position_dodge(), show.legend = FALSE) + 
-    scale_fill_brewer(palette = "Set1") +
-    theme_tufte() +
-    theme(axis.text.x = element_text(angle = 90, hjust = 1)) +
-    xlab("Base-Leearner") + ylab("Mean Out of Bag\nRisk Reduction") +
-    guides(fill = guide_legend(title = "Risk Type"))
+```{r, eval=FALSE}
+cboost$plotFeatureImportance(num.feat = 15L)
 ```
-
+```{r, echo=FALSE}
+cboost$plotFeatureImportance(num.feat = 15L) + theme_tufte()
+```
 <!-- ## Retrain the Model
 
 ```{r}
 cboost$train(10000)
 ```
  -->
+
 ## Using Custom Losses - Defining a Loss
+
+Now we recognize that the customers do not buy the wine in liters but per cup, therefore it might be better to use a Poisson loss to take the counting data into account. For that reason we define a new custom loss:
 
 ```{r}
 lossPoi = function (truth, pred) {
@@ -300,10 +304,11 @@ my_custom_loss = LossCustom$new(lossPoi, gradPoi, constInitPoi)
 ## Using Custom Losses - Using the Loss
 
 ```{r}
-cboost = boostSplines(data = mulled_wine_data, target = "mw_consumption", 
-  optimizer = OptimizerCoordinateDescent$new(), loss = my_custom_loss, 
-  learning.rate = 0.005, iterations = 500, trace = 100, n.knots = 10, 
-  degree = 3)
+cboost = boostSplines(data = mulled_wine_data[,-1], 
+  target = "mw_consumption_cups", loss = my_custom_loss,
+  optimizer = OptimizerCoordinateDescent$new(),  
+  learning.rate = 0.005, iterations = 500, trace = 100, 
+  n.knots = 10, degree = 3)
 ```
 
 ## Further Functionalities
@@ -326,28 +331,44 @@ cboost = boostSplines(data = mulled_wine_data, target = "mw_consumption",
 
 ![](figures/cboost_cpp_r_wrapup.svg)
 
-## Problems When Using C++ and Rcpp
+## Challenges When Using C++ and Rcpp
 
 -   Saving object is not possible at the moment <!-- serialization is not done automatically-->
 -   Memory managing is not easy $\Rightarrow$ Segmentation folds or memory leaks may happen
--   Exported API of classes is not very telling
+-   Exported API of classes is not very informative
 -   Debugging of `C++` from `R` can be very annoying and time-consuming
 
-# What Happens Next?
+# What's Next?
 
 ## 
 
 -   Better selection process of base-learner
--   Fasten the training by parallel computations
--   More extensive functionality:
+-   Speed up the training by parallel computations
+-   Greater functionality:
     -   Functional data structures and loss functions
     -   Unbiased feature selection
-    -   Effect decomposition into constant, linear, and non-linear and selection
+    -   Effect decomposition into constant, linear, and non-linear
 
 
 # Thanks for your attention!
 
+## 
+
+<center>
+[![Build Status](https://travis-ci.org/schalkdaniel/compboost.svg?branch=master)](https://travis-ci.org/schalkdaniel/compboost) [![AppVeyor Build Status](https://ci.appveyor.com/api/projects/status/github/schalkdaniel/compboost?branch=master&svg=true)](https://ci.appveyor.com/project/schalkdaniel/compboost) [![Coverage Status](https://coveralls.io/repos/github/schalkdaniel/compboost/badge.svg?branch=master)](https://coveralls.io/github/schalkdaniel/compboost?branch=master) [![license](https://img.shields.io/github/license/mashape/apistatus.svg?maxAge=2592000)](#license) [![CRAN\_Status\_Badge](http://www.r-pkg.org/badges/version/compboost)](https://cran.r-project.org/package=compboost) [![status](http://joss.theoj.org/papers/94cfdbbfdfc8796c5bdb1a74ee59fcda/status.svg)](http://joss.theoj.org/papers/94cfdbbfdfc8796c5bdb1a74ee59fcda)
+</center>
+
+-   Actively developed on GitHub: 
+ 
+<p><center>https://github.com/schalkdaniel/compboost</center></p>
+
+-   Project page: 
+
+<p><center>https://compboost.org/</center></p>
+
 ## Credits
+
+Slides were created with:
 
 - [**revealjs**](https://revealjs.com/)
 - [**Font-Awesome:**](https://www.google.com)

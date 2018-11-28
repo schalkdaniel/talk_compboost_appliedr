@@ -529,10 +529,10 @@ document.getElementsByTagName('head')[0].appendChild(style);
 <section><section id="use-case" class="title-slide slide level1"><h1>Use-Case</h1></section><section id="section" class="slide level2">
 <h2></h2>
 <ul>
-<li><p>We are owners of a small stand at the Christmas market where we sell mulled wine.</p></li>
-<li><p>Since we are very interested in the health of our customers, we only sell to customers who we expect to drink less than 15 litres per year.</p></li>
-<li><p>To estimate how much a customer will drink, we have collected data from 200 customers in recent years.</p></li>
-<li><p>These data include mulled wine consumption, age, sex, country of origin, weight, body size, and 200 characteristics (that have absolutely no influence).</p></li>
+<li><p>We own a small booth at the Christmas market that sells mulled wine.</p></li>
+<li><p>As we are very interested in our customers’ health, we only sell to customers who we expect to drink less than 15 liters per season.</p></li>
+<li><p>To estimate how much a customer drinks, we have collected data from 200 customers in recent years.</p></li>
+<li><p>These data include mulled wine consumption (in liter and cups), age, sex, country of origin, weight, body size, and 200 characteristics (that have absolutely no influence).</p></li>
 </ul>
 </section><section id="section-1" class="slide level2">
 <h2></h2>
@@ -540,6 +540,7 @@ document.getElementsByTagName('head')[0].appendChild(style);
 <thead>
 <tr class="header">
 <th style="text-align: right;">mw_consumption</th>
+<th style="text-align: right;">mw_consumption_cups</th>
 <th style="text-align: left;">gender</th>
 <th style="text-align: left;">country</th>
 <th style="text-align: right;">age</th>
@@ -550,7 +551,8 @@ document.getElementsByTagName('head')[0].appendChild(style);
 </thead>
 <tbody>
 <tr class="odd">
-<td style="text-align: right;">12.600</td>
+<td style="text-align: right;">12.6</td>
+<td style="text-align: right;">42</td>
 <td style="text-align: left;">f</td>
 <td style="text-align: left;">Seychelles</td>
 <td style="text-align: right;">21</td>
@@ -559,7 +561,8 @@ document.getElementsByTagName('head')[0].appendChild(style);
 <td style="text-align: right;">0.1680</td>
 </tr>
 <tr class="even">
-<td style="text-align: right;">2.097</td>
+<td style="text-align: right;">2.1</td>
+<td style="text-align: right;">7</td>
 <td style="text-align: left;">f</td>
 <td style="text-align: left;">Poland</td>
 <td style="text-align: right;">57</td>
@@ -568,7 +571,8 @@ document.getElementsByTagName('head')[0].appendChild(style);
 <td style="text-align: right;">0.8075</td>
 </tr>
 <tr class="odd">
-<td style="text-align: right;">12.591</td>
+<td style="text-align: right;">12.6</td>
+<td style="text-align: right;">42</td>
 <td style="text-align: left;">m</td>
 <td style="text-align: left;">Seychelles</td>
 <td style="text-align: right;">25</td>
@@ -577,7 +581,8 @@ document.getElementsByTagName('head')[0].appendChild(style);
 <td style="text-align: right;">0.3849</td>
 </tr>
 <tr class="even">
-<td style="text-align: right;">9.193</td>
+<td style="text-align: right;">9.3</td>
+<td style="text-align: right;">31</td>
 <td style="text-align: left;">f</td>
 <td style="text-align: left;">Germany</td>
 <td style="text-align: right;">68</td>
@@ -586,7 +591,8 @@ document.getElementsByTagName('head')[0].appendChild(style);
 <td style="text-align: right;">0.3277</td>
 </tr>
 <tr class="odd">
-<td style="text-align: right;">4.859</td>
+<td style="text-align: right;">4.8</td>
+<td style="text-align: right;">16</td>
 <td style="text-align: left;">m</td>
 <td style="text-align: left;">Ireland</td>
 <td style="text-align: right;">39</td>
@@ -595,7 +601,8 @@ document.getElementsByTagName('head')[0].appendChild(style);
 <td style="text-align: right;">0.6021</td>
 </tr>
 <tr class="even">
-<td style="text-align: right;">9.181</td>
+<td style="text-align: right;">9.3</td>
+<td style="text-align: right;">31</td>
 <td style="text-align: left;">f</td>
 <td style="text-align: left;">Germany</td>
 <td style="text-align: right;">19</td>
@@ -604,7 +611,8 @@ document.getElementsByTagName('head')[0].appendChild(style);
 <td style="text-align: right;">0.6044</td>
 </tr>
 <tr class="odd">
-<td style="text-align: right;">5.041</td>
+<td style="text-align: right;">5.1</td>
+<td style="text-align: right;">17</td>
 <td style="text-align: left;">f</td>
 <td style="text-align: left;">Poland</td>
 <td style="text-align: right;">66</td>
@@ -613,7 +621,8 @@ document.getElementsByTagName('head')[0].appendChild(style);
 <td style="text-align: right;">0.1246</td>
 </tr>
 <tr class="even">
-<td style="text-align: right;">7.418</td>
+<td style="text-align: right;">7.5</td>
+<td style="text-align: right;">25</td>
 <td style="text-align: left;">f</td>
 <td style="text-align: left;">Seychelles</td>
 <td style="text-align: right;">62</td>
@@ -622,7 +631,8 @@ document.getElementsByTagName('head')[0].appendChild(style);
 <td style="text-align: right;">0.2946</td>
 </tr>
 <tr class="odd">
-<td style="text-align: right;">14.873</td>
+<td style="text-align: right;">15.0</td>
+<td style="text-align: right;">50</td>
 <td style="text-align: left;">m</td>
 <td style="text-align: left;">Seychelles</td>
 <td style="text-align: right;">22</td>
@@ -631,7 +641,8 @@ document.getElementsByTagName('head')[0].appendChild(style);
 <td style="text-align: right;">0.5776</td>
 </tr>
 <tr class="even">
-<td style="text-align: right;">8.323</td>
+<td style="text-align: right;">8.4</td>
+<td style="text-align: right;">28</td>
 <td style="text-align: left;">m</td>
 <td style="text-align: left;">Germany</td>
 <td style="text-align: right;">52</td>
@@ -645,18 +656,39 @@ document.getElementsByTagName('head')[0].appendChild(style);
 <h2></h2>
 <p>With these data we want to answer the following questions:</p>
 <ul>
-<li>Which characteristics of the customer are important to be able to guess the consumption?</li>
-<li>What does the effect of important features look like?</li>
+<li>Which of the customers’ characteristics are important to be able to determine the consumption?</li>
+<li>How does the effect of important features look like?</li>
 <li>How does the model behave on unseen data?</li>
 </ul>
 </section><section id="section-3" class="slide level2">
 <h2></h2>
 <center>
-<strong>What can we do to respond to all the questions?</strong>
+<strong>What can we do to answer all the questions?</strong>
 </center>
+<ul>
+<li>Fit a linear model?</li>
+<li>Fit a linear model on each feature and build the ensemble?</li>
+<li>Fit a regularized linear model?</li>
+<li>Train a random forest?</li>
+</ul>
+</section><section id="section-4" class="slide level2">
+<h2></h2>
+<center>
+<strong>What can we do to answer all the questions?</strong>
+</center>
+<ul>
+<li><p>Fit a linear model?<br />
+<span class="math inline">\(\rightarrow\)</span> Not possible <span class="math inline">\(p &gt; n\)</span></p></li>
+<li><p>Fit a linear model on each feature and build the ensemble?<br />
+<span class="math inline">\(\rightarrow\)</span> Possible, but how should we determine important effects?</p></li>
+<li><p>Train a random forest?<br />
+<span class="math inline">\(\rightarrow\)</span> Possible, but we want to interpret the effects.</p></li>
+<li><p>Fit a regularized linear model?<br />
+<span class="math inline">\(\rightarrow\)</span> Possible, and basically the same as component-wise boosting.</p></li>
+</ul>
 </section></section>
-<section><section id="component-wise-boosting" class="title-slide slide level1"><h1>Component-Wise Boosting</h1></section><section id="the-idea-behind-component-wise-boosting" class="slide level2">
-<h2>The Idea Behind Component-Wise Boosting</h2>
+<section><section id="component-wise-boosting" class="title-slide slide level1"><h1>Component-Wise Boosting</h1></section><section id="the-idea-of-component-wise-boosting" class="slide level2">
+<h2>The Idea of Component-Wise Boosting</h2>
 <p><img data-src="figures/cboost_gif.svg" /></p>
 </section><section id="why-component-wise-boosting" class="slide level2">
 <h2>Why Component-Wise Boosting?</h2>
@@ -677,13 +709,13 @@ document.getElementsByTagName('head')[0].appendChild(style);
 </section></section>
 <section><section id="applying-compboost-to-the-use-case" class="title-slide slide level1"><h1>Applying <code>compboost</code> to the Use-Case</h1></section><section id="quick-start-with-wrapper-functions" class="slide level2">
 <h2>Quick Start With Wrapper Functions</h2>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1">cboost =<span class="st"> </span><span class="kw">boostSplines</span>(<span class="dt">data =</span> mulled_wine_data, <span class="dt">target =</span> <span class="st">&quot;mw_consumption&quot;</span>, </a>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1">cboost =<span class="st"> </span><span class="kw">boostSplines</span>(<span class="dt">data =</span> mulled_wine_data[,<span class="op">-</span><span class="dv">2</span>], <span class="dt">target =</span> <span class="st">&quot;mw_consumption&quot;</span>, </a>
 <a class="sourceLine" id="cb1-2" data-line-number="2">  <span class="dt">loss =</span> LossQuadratic<span class="op">$</span><span class="kw">new</span>(), <span class="dt">learning.rate =</span> <span class="fl">0.005</span>, <span class="dt">iterations =</span> <span class="dv">6000</span>, </a>
 <a class="sourceLine" id="cb1-3" data-line-number="3">  <span class="dt">trace =</span> <span class="dv">600</span>)</a>
 <a class="sourceLine" id="cb1-4" data-line-number="4"><span class="co">##    1/6000   risk = 5.6  </span></a>
 <a class="sourceLine" id="cb1-5" data-line-number="5"><span class="co">##  600/6000   risk = 2.5  </span></a>
 <a class="sourceLine" id="cb1-6" data-line-number="6"><span class="co">## 1200/6000   risk = 1.3  </span></a>
-<a class="sourceLine" id="cb1-7" data-line-number="7"><span class="co">## 1800/6000   risk = 0.79  </span></a>
+<a class="sourceLine" id="cb1-7" data-line-number="7"><span class="co">## 1800/6000   risk = 0.8  </span></a>
 <a class="sourceLine" id="cb1-8" data-line-number="8"><span class="co">## 2400/6000   risk = 0.51  </span></a>
 <a class="sourceLine" id="cb1-9" data-line-number="9"><span class="co">## 3000/6000   risk = 0.34  </span></a>
 <a class="sourceLine" id="cb1-10" data-line-number="10"><span class="co">## 3600/6000   risk = 0.24  </span></a>
@@ -693,7 +725,7 @@ document.getElementsByTagName('head')[0].appendChild(style);
 <a class="sourceLine" id="cb1-14" data-line-number="14"><span class="co">## 6000/6000   risk = 0.064  </span></a>
 <a class="sourceLine" id="cb1-15" data-line-number="15"><span class="co">## </span></a>
 <a class="sourceLine" id="cb1-16" data-line-number="16"><span class="co">## </span></a>
-<a class="sourceLine" id="cb1-17" data-line-number="17"><span class="co">## Train 6000 iterations in 8 Seconds.</span></a>
+<a class="sourceLine" id="cb1-17" data-line-number="17"><span class="co">## Train 6000 iterations in 9 Seconds.</span></a>
 <a class="sourceLine" id="cb1-18" data-line-number="18"><span class="co">## Final risk based on the train set: 0.064</span></a></code></pre></div>
 </section><section id="effect-visualization" class="slide level2">
 <h2>Effect Visualization</h2>
@@ -707,11 +739,11 @@ document.getElementsByTagName('head')[0].appendChild(style);
 <a class="sourceLine" id="cb3-3" data-line-number="3">idx_test =<span class="st"> </span><span class="kw">setdiff</span>(<span class="dt">x =</span> <span class="kw">seq_len</span>(n_data), idx_train)</a></code></pre></div>
 </section><section id="define-model-and-base-learner-the-object-oriented-style" class="slide level2">
 <h2>Define Model and Base-Learner the “Object-Oriented Style”</h2>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1">cboost =<span class="st"> </span>Compboost<span class="op">$</span><span class="kw">new</span>(<span class="dt">data =</span> mulled_wine_data[idx_train,], </a>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1">cboost =<span class="st"> </span>Compboost<span class="op">$</span><span class="kw">new</span>(<span class="dt">data =</span> mulled_wine_data[idx_train,<span class="op">-</span><span class="dv">2</span>], </a>
 <a class="sourceLine" id="cb4-2" data-line-number="2">  <span class="dt">target =</span> <span class="st">&quot;mw_consumption&quot;</span>, <span class="dt">loss =</span> LossQuadratic<span class="op">$</span><span class="kw">new</span>(), </a>
 <a class="sourceLine" id="cb4-3" data-line-number="3">  <span class="dt">learning.rate =</span> <span class="fl">0.005</span>)</a>
 <a class="sourceLine" id="cb4-4" data-line-number="4"></a>
-<a class="sourceLine" id="cb4-5" data-line-number="5"><span class="cf">for</span> (feature_name <span class="cf">in</span> <span class="kw">setdiff</span>(<span class="kw">names</span>(mulled_wine_data), target)) {</a>
+<a class="sourceLine" id="cb4-5" data-line-number="5"><span class="cf">for</span> (feature_name <span class="cf">in</span> <span class="kw">setdiff</span>(<span class="kw">names</span>(mulled_wine_data[,<span class="op">-</span><span class="dv">2</span>]), target)) {</a>
 <a class="sourceLine" id="cb4-6" data-line-number="6">  <span class="cf">if</span> (feature_name <span class="op">%in%</span><span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;gender&quot;</span>, <span class="st">&quot;country&quot;</span>)) {</a>
 <a class="sourceLine" id="cb4-7" data-line-number="7">    cboost<span class="op">$</span><span class="kw">addBaselearner</span>(<span class="dt">feature =</span> feature_name, <span class="dt">id =</span> <span class="st">&quot;category&quot;</span>, </a>
 <a class="sourceLine" id="cb4-8" data-line-number="8">      <span class="dt">bl.factory =</span> BaselearnerPolynomial, <span class="dt">intercept =</span> <span class="ot">FALSE</span>)</a>
@@ -735,30 +767,30 @@ document.getElementsByTagName('head')[0].appendChild(style);
 <a class="sourceLine" id="cb6-6" data-line-number="6">  <span class="dt">max.time =</span> <span class="dv">0</span>, <span class="dt">time.unit =</span> <span class="st">&quot;microseconds&quot;</span>)</a>
 <a class="sourceLine" id="cb6-7" data-line-number="7"></a>
 <a class="sourceLine" id="cb6-8" data-line-number="8">cboost<span class="op">$</span><span class="kw">train</span>(<span class="dv">6000</span>, <span class="dt">trace =</span> <span class="dv">1500</span>)</a>
-<a class="sourceLine" id="cb6-9" data-line-number="9"><span class="co">##    1/6000   risk = 5.6  microseconds = 1   oob_risk = 5.6   </span></a>
-<a class="sourceLine" id="cb6-10" data-line-number="10"><span class="co">## 1500/6000   risk = 0.98  microseconds = 2283204   oob_risk = 1.5   </span></a>
-<a class="sourceLine" id="cb6-11" data-line-number="11"><span class="co">## 3000/6000   risk = 0.36  microseconds = 4607534   oob_risk = 1.1   </span></a>
-<a class="sourceLine" id="cb6-12" data-line-number="12"><span class="co">## 4500/6000   risk = 0.17  microseconds = 6940126   oob_risk = 1.1   </span></a>
-<a class="sourceLine" id="cb6-13" data-line-number="13"><span class="co">## 6000/6000   risk = 0.09  microseconds = 9296165   oob_risk = 1.2   </span></a>
+<a class="sourceLine" id="cb6-9" data-line-number="9"><span class="co">##    1/6000   risk = 5.6  microseconds = 1   oob_risk = 5.7   </span></a>
+<a class="sourceLine" id="cb6-10" data-line-number="10"><span class="co">## 1500/6000   risk = 0.99  microseconds = 2518925   oob_risk = 1.5   </span></a>
+<a class="sourceLine" id="cb6-11" data-line-number="11"><span class="co">## 3000/6000   risk = 0.37  microseconds = 4848996   oob_risk = 1.1   </span></a>
+<a class="sourceLine" id="cb6-12" data-line-number="12"><span class="co">## 4500/6000   risk = 0.17  microseconds = 7171435   oob_risk = 1.1   </span></a>
+<a class="sourceLine" id="cb6-13" data-line-number="13"><span class="co">## 6000/6000   risk = 0.092  microseconds = 9495656   oob_risk = 1.2   </span></a>
 <a class="sourceLine" id="cb6-14" data-line-number="14"><span class="co">## </span></a>
 <a class="sourceLine" id="cb6-15" data-line-number="15"><span class="co">## </span></a>
 <a class="sourceLine" id="cb6-16" data-line-number="16"><span class="co">## Train 6000 iterations in 9 Seconds.</span></a>
-<a class="sourceLine" id="cb6-17" data-line-number="17"><span class="co">## Final risk based on the train set: 0.09</span></a></code></pre></div>
+<a class="sourceLine" id="cb6-17" data-line-number="17"><span class="co">## Final risk based on the train set: 0.092</span></a></code></pre></div>
 </section><section id="extract-inbag-and-oob-data" class="slide level2">
 <h2>Extract Inbag and OOB Data</h2>
 <div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" data-line-number="1">inbag_trace =<span class="st"> </span>cboost<span class="op">$</span><span class="kw">getInbagRisk</span>()</a>
 <a class="sourceLine" id="cb7-2" data-line-number="2"><span class="kw">head</span>(inbag_trace)</a>
-<a class="sourceLine" id="cb7-3" data-line-number="3"><span class="co">## [1] 5.662 5.650 5.638 5.626 5.615 5.603</span></a>
+<a class="sourceLine" id="cb7-3" data-line-number="3"><span class="co">## [1] 5.659 5.647 5.635 5.623 5.612 5.600</span></a>
 <a class="sourceLine" id="cb7-4" data-line-number="4"></a>
 <a class="sourceLine" id="cb7-5" data-line-number="5">logger_data =<span class="st"> </span>cboost<span class="op">$</span><span class="kw">getLoggerData</span>()</a>
 <a class="sourceLine" id="cb7-6" data-line-number="6"><span class="kw">head</span>(logger_data)</a>
 <a class="sourceLine" id="cb7-7" data-line-number="7"><span class="co">##   _iterations microseconds oob_risk</span></a>
-<a class="sourceLine" id="cb7-8" data-line-number="8"><span class="co">## 1           1            1    5.630</span></a>
-<a class="sourceLine" id="cb7-9" data-line-number="9"><span class="co">## 2           2         1742    5.619</span></a>
-<a class="sourceLine" id="cb7-10" data-line-number="10"><span class="co">## 3           3         3326    5.608</span></a>
-<a class="sourceLine" id="cb7-11" data-line-number="11"><span class="co">## 4           4         4845    5.598</span></a>
-<a class="sourceLine" id="cb7-12" data-line-number="12"><span class="co">## 5           5         6353    5.588</span></a>
-<a class="sourceLine" id="cb7-13" data-line-number="13"><span class="co">## 6           6         7847    5.577</span></a></code></pre></div>
+<a class="sourceLine" id="cb7-8" data-line-number="8"><span class="co">## 1           1            1    5.671</span></a>
+<a class="sourceLine" id="cb7-9" data-line-number="9"><span class="co">## 2           2         1728    5.660</span></a>
+<a class="sourceLine" id="cb7-10" data-line-number="10"><span class="co">## 3           3         3374    5.649</span></a>
+<a class="sourceLine" id="cb7-11" data-line-number="11"><span class="co">## 4           4         5043    5.639</span></a>
+<a class="sourceLine" id="cb7-12" data-line-number="12"><span class="co">## 5           5         6697    5.628</span></a>
+<a class="sourceLine" id="cb7-13" data-line-number="13"><span class="co">## 6           6         8428    5.618</span></a></code></pre></div>
 </section><section id="visualization-of-inbag-and-oob-risk" class="slide level2">
 <h2>Visualization of Inbag and OOB Risk</h2>
 <div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" data-line-number="1">oob_trace =<span class="st"> </span>logger_data[[<span class="st">&quot;oob_risk&quot;</span>]]</a>
@@ -777,11 +809,11 @@ document.getElementsByTagName('head')[0].appendChild(style);
 <a class="sourceLine" id="cb9-2" data-line-number="2">cboost</a>
 <a class="sourceLine" id="cb9-3" data-line-number="3"><span class="co">## Component-Wise Gradient Boosting</span></a>
 <a class="sourceLine" id="cb9-4" data-line-number="4"><span class="co">## </span></a>
-<a class="sourceLine" id="cb9-5" data-line-number="5"><span class="co">## Trained on mulled_wine_data[idx_train, ] with target mw_consumption</span></a>
+<a class="sourceLine" id="cb9-5" data-line-number="5"><span class="co">## Trained on mulled_wine_data[idx_train, -2] with target mw_consumption</span></a>
 <a class="sourceLine" id="cb9-6" data-line-number="6"><span class="co">## Number of base-learners: 210</span></a>
 <a class="sourceLine" id="cb9-7" data-line-number="7"><span class="co">## Learning rate: 0.005</span></a>
 <a class="sourceLine" id="cb9-8" data-line-number="8"><span class="co">## Iterations: 2200</span></a>
-<a class="sourceLine" id="cb9-9" data-line-number="9"><span class="co">## Offset: 6.6524</span></a>
+<a class="sourceLine" id="cb9-9" data-line-number="9"><span class="co">## Offset: 6.65</span></a>
 <a class="sourceLine" id="cb9-10" data-line-number="10"><span class="co">## </span></a>
 <a class="sourceLine" id="cb9-11" data-line-number="11"><span class="co">## LossQuadratic Loss:</span></a>
 <a class="sourceLine" id="cb9-12" data-line-number="12"><span class="co">## </span></a>
@@ -790,8 +822,8 @@ document.getElementsByTagName('head')[0].appendChild(style);
 <a class="sourceLine" id="cb9-15" data-line-number="15"><span class="co">## </span></a></code></pre></div>
 </section><section id="feature-importance" class="slide level2">
 <h2>Feature Importance</h2>
-<p><img src="index_files/figure-revealjs/unnamed-chunk-13-1.png" width="70%" style="display: block; margin: auto;" /></p>
-<!-- ## Retrain the Model
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" data-line-number="1">cboost<span class="op">$</span><span class="kw">plotFeatureImportance</span>(<span class="dt">num.feat =</span> 15L)</a></code></pre></div>
+<p><img src="index_files/figure-revealjs/unnamed-chunk-14-1.png" width="70%" style="display: block; margin: auto;" /> <!-- ## Retrain the Model
 
 
 ```r
@@ -800,36 +832,38 @@ cboost$train(10000)
 ## You have already trained 6000 iterations.
 ## Train 4000 additional iterations.
 ```
- -->
+ --></p>
 </section><section id="using-custom-losses---defining-a-loss" class="slide level2">
 <h2>Using Custom Losses - Defining a Loss</h2>
-<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" data-line-number="1">lossPoi =<span class="st"> </span><span class="cf">function</span> (truth, pred) {</a>
-<a class="sourceLine" id="cb10-2" data-line-number="2">  <span class="kw">return</span> (<span class="op">-</span><span class="kw">log</span>(<span class="kw">exp</span>(pred)<span class="op">^</span>truth <span class="op">*</span><span class="st"> </span><span class="kw">exp</span>(<span class="op">-</span><span class="kw">exp</span>(pred)) <span class="op">/</span><span class="st"> </span><span class="kw">gamma</span>(truth <span class="op">+</span><span class="st"> </span><span class="dv">1</span>)))</a>
-<a class="sourceLine" id="cb10-3" data-line-number="3">}</a>
-<a class="sourceLine" id="cb10-4" data-line-number="4">gradPoi =<span class="st"> </span><span class="cf">function</span> (truth, pred) {</a>
-<a class="sourceLine" id="cb10-5" data-line-number="5">  <span class="kw">return</span> (<span class="kw">exp</span>(pred) <span class="op">-</span><span class="st"> </span>truth)</a>
-<a class="sourceLine" id="cb10-6" data-line-number="6">}</a>
-<a class="sourceLine" id="cb10-7" data-line-number="7">constInitPoi =<span class="st"> </span><span class="cf">function</span> (truth) {</a>
-<a class="sourceLine" id="cb10-8" data-line-number="8">  <span class="kw">return</span> (<span class="kw">log</span>(<span class="kw">mean.default</span>(truth)))</a>
-<a class="sourceLine" id="cb10-9" data-line-number="9">}</a>
-<a class="sourceLine" id="cb10-10" data-line-number="10"><span class="co"># Define custom loss:</span></a>
-<a class="sourceLine" id="cb10-11" data-line-number="11">my_custom_loss =<span class="st"> </span>LossCustom<span class="op">$</span><span class="kw">new</span>(lossPoi, gradPoi, constInitPoi)</a></code></pre></div>
+<p>Now we recognize that the customers do not buy the wine in liters but per cup, therefore it might be better to use a Poisson loss to take the counting data into account. For that reason we define a new custom loss:</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb11-1" data-line-number="1">lossPoi =<span class="st"> </span><span class="cf">function</span> (truth, pred) {</a>
+<a class="sourceLine" id="cb11-2" data-line-number="2">  <span class="kw">return</span> (<span class="op">-</span><span class="kw">log</span>(<span class="kw">exp</span>(pred)<span class="op">^</span>truth <span class="op">*</span><span class="st"> </span><span class="kw">exp</span>(<span class="op">-</span><span class="kw">exp</span>(pred)) <span class="op">/</span><span class="st"> </span><span class="kw">gamma</span>(truth <span class="op">+</span><span class="st"> </span><span class="dv">1</span>)))</a>
+<a class="sourceLine" id="cb11-3" data-line-number="3">}</a>
+<a class="sourceLine" id="cb11-4" data-line-number="4">gradPoi =<span class="st"> </span><span class="cf">function</span> (truth, pred) {</a>
+<a class="sourceLine" id="cb11-5" data-line-number="5">  <span class="kw">return</span> (<span class="kw">exp</span>(pred) <span class="op">-</span><span class="st"> </span>truth)</a>
+<a class="sourceLine" id="cb11-6" data-line-number="6">}</a>
+<a class="sourceLine" id="cb11-7" data-line-number="7">constInitPoi =<span class="st"> </span><span class="cf">function</span> (truth) {</a>
+<a class="sourceLine" id="cb11-8" data-line-number="8">  <span class="kw">return</span> (<span class="kw">log</span>(<span class="kw">mean.default</span>(truth)))</a>
+<a class="sourceLine" id="cb11-9" data-line-number="9">}</a>
+<a class="sourceLine" id="cb11-10" data-line-number="10"><span class="co"># Define custom loss:</span></a>
+<a class="sourceLine" id="cb11-11" data-line-number="11">my_custom_loss =<span class="st"> </span>LossCustom<span class="op">$</span><span class="kw">new</span>(lossPoi, gradPoi, constInitPoi)</a></code></pre></div>
 </section><section id="using-custom-losses---using-the-loss" class="slide level2">
 <h2>Using Custom Losses - Using the Loss</h2>
-<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb11-1" data-line-number="1">cboost =<span class="st"> </span><span class="kw">boostSplines</span>(<span class="dt">data =</span> mulled_wine_data, <span class="dt">target =</span> <span class="st">&quot;mw_consumption&quot;</span>, </a>
-<a class="sourceLine" id="cb11-2" data-line-number="2">  <span class="dt">optimizer =</span> OptimizerCoordinateDescent<span class="op">$</span><span class="kw">new</span>(), <span class="dt">loss =</span> my_custom_loss, </a>
-<a class="sourceLine" id="cb11-3" data-line-number="3">  <span class="dt">learning.rate =</span> <span class="fl">0.005</span>, <span class="dt">iterations =</span> <span class="dv">500</span>, <span class="dt">trace =</span> <span class="dv">100</span>, <span class="dt">n.knots =</span> <span class="dv">10</span>, </a>
-<a class="sourceLine" id="cb11-4" data-line-number="4">  <span class="dt">degree =</span> <span class="dv">3</span>)</a>
-<a class="sourceLine" id="cb11-5" data-line-number="5"><span class="co">##   1/500   risk = 2.7  </span></a>
-<a class="sourceLine" id="cb11-6" data-line-number="6"><span class="co">## 100/500   risk = 2.2  </span></a>
-<a class="sourceLine" id="cb11-7" data-line-number="7"><span class="co">## 200/500   risk = 2  </span></a>
-<a class="sourceLine" id="cb11-8" data-line-number="8"><span class="co">## 300/500   risk = 2  </span></a>
-<a class="sourceLine" id="cb11-9" data-line-number="9"><span class="co">## 400/500   risk = 1.9  </span></a>
-<a class="sourceLine" id="cb11-10" data-line-number="10"><span class="co">## 500/500   risk = 1.9  </span></a>
-<a class="sourceLine" id="cb11-11" data-line-number="11"><span class="co">## </span></a>
-<a class="sourceLine" id="cb11-12" data-line-number="12"><span class="co">## </span></a>
-<a class="sourceLine" id="cb11-13" data-line-number="13"><span class="co">## Train 500 iterations in 0 Seconds.</span></a>
-<a class="sourceLine" id="cb11-14" data-line-number="14"><span class="co">## Final risk based on the train set: 1.9</span></a></code></pre></div>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb12-1" data-line-number="1">cboost =<span class="st"> </span><span class="kw">boostSplines</span>(<span class="dt">data =</span> mulled_wine_data[,<span class="op">-</span><span class="dv">1</span>], </a>
+<a class="sourceLine" id="cb12-2" data-line-number="2">  <span class="dt">target =</span> <span class="st">&quot;mw_consumption_cups&quot;</span>, <span class="dt">loss =</span> my_custom_loss,</a>
+<a class="sourceLine" id="cb12-3" data-line-number="3">  <span class="dt">optimizer =</span> OptimizerCoordinateDescent<span class="op">$</span><span class="kw">new</span>(),  </a>
+<a class="sourceLine" id="cb12-4" data-line-number="4">  <span class="dt">learning.rate =</span> <span class="fl">0.005</span>, <span class="dt">iterations =</span> <span class="dv">500</span>, <span class="dt">trace =</span> <span class="dv">100</span>, </a>
+<a class="sourceLine" id="cb12-5" data-line-number="5">  <span class="dt">n.knots =</span> <span class="dv">10</span>, <span class="dt">degree =</span> <span class="dv">3</span>)</a>
+<a class="sourceLine" id="cb12-6" data-line-number="6"><span class="co">##   1/500   risk = 5.3  </span></a>
+<a class="sourceLine" id="cb12-7" data-line-number="7"><span class="co">## 100/500   risk = 3  </span></a>
+<a class="sourceLine" id="cb12-8" data-line-number="8"><span class="co">## 200/500   risk = 2.7  </span></a>
+<a class="sourceLine" id="cb12-9" data-line-number="9"><span class="co">## 300/500   risk = 2.6  </span></a>
+<a class="sourceLine" id="cb12-10" data-line-number="10"><span class="co">## 400/500   risk = 2.6  </span></a>
+<a class="sourceLine" id="cb12-11" data-line-number="11"><span class="co">## 500/500   risk = 2.5  </span></a>
+<a class="sourceLine" id="cb12-12" data-line-number="12"><span class="co">## </span></a>
+<a class="sourceLine" id="cb12-13" data-line-number="13"><span class="co">## </span></a>
+<a class="sourceLine" id="cb12-14" data-line-number="14"><span class="co">## Train 500 iterations in 0 Seconds.</span></a>
+<a class="sourceLine" id="cb12-15" data-line-number="15"><span class="co">## Final risk based on the train set: 2.5</span></a></code></pre></div>
 </section><section id="further-functionalities" class="slide level2">
 <h2>Further Functionalities</h2>
 <ul>
@@ -848,30 +882,52 @@ cboost$train(10000)
 </section><section id="c-to-r-wrap-up-of-compboost" class="slide level2">
 <h2>C++ to R Wrap Up of <code>compboost</code></h2>
 <p><img data-src="figures/cboost_cpp_r_wrapup.svg" /></p>
-</section><section id="problems-when-using-c-and-rcpp" class="slide level2">
-<h2>Problems When Using C++ and Rcpp</h2>
+</section><section id="challenges-when-using-c-and-rcpp" class="slide level2">
+<h2>Challenges When Using C++ and Rcpp</h2>
 <ul>
 <li>Saving object is not possible at the moment <!-- serialization is not done automatically--></li>
 <li>Memory managing is not easy <span class="math inline">\(\Rightarrow\)</span> Segmentation folds or memory leaks may happen</li>
-<li>Exported API of classes is not very telling</li>
+<li>Exported API of classes is not very informative</li>
 <li>Debugging of <code>C++</code> from <code>R</code> can be very annoying and time-consuming</li>
 </ul>
 </section></section>
-<section><section id="what-happens-next" class="title-slide slide level1"><h1>What Happens Next?</h1></section><section id="section-4" class="slide level2">
+<section><section id="whats-next" class="title-slide slide level1"><h1>What’s Next?</h1></section><section id="section-5" class="slide level2">
 <h2></h2>
 <ul>
 <li>Better selection process of base-learner</li>
-<li>Fasten the training by parallel computations</li>
-<li>More extensive functionality:
+<li>Speed up the training by parallel computations</li>
+<li>Greater functionality:
 <ul>
 <li>Functional data structures and loss functions</li>
 <li>Unbiased feature selection</li>
-<li>Effect decomposition into constant, linear, and non-linear and selection</li>
+<li>Effect decomposition into constant, linear, and non-linear</li>
 </ul></li>
 </ul>
 </section></section>
-<section><section id="thanks-for-your-attention" class="title-slide slide level1"><h1>Thanks for your attention!</h1></section><section id="credits" class="slide level2">
+<section><section id="thanks-for-your-attention" class="title-slide slide level1"><h1>Thanks for your attention!</h1></section><section id="section-6" class="slide level2">
+<h2></h2>
+<center>
+<a href="https://travis-ci.org/schalkdaniel/compboost"><img data-src="https://travis-ci.org/schalkdaniel/compboost.svg?branch=master" alt="Build Status" /></a> <a href="https://ci.appveyor.com/project/schalkdaniel/compboost"><img data-src="https://ci.appveyor.com/api/projects/status/github/schalkdaniel/compboost?branch=master&amp;svg=true" alt="AppVeyor Build Status" /></a> <a href="https://coveralls.io/github/schalkdaniel/compboost?branch=master"><img data-src="https://coveralls.io/repos/github/schalkdaniel/compboost/badge.svg?branch=master" alt="Coverage Status" /></a> <a href="#/license"><img data-src="https://img.shields.io/github/license/mashape/apistatus.svg?maxAge=2592000" alt="license" /></a> <a href="https://cran.r-project.org/package=compboost"><img data-src="http://www.r-pkg.org/badges/version/compboost" alt="CRAN_Status_Badge" /></a> <a href="http://joss.theoj.org/papers/94cfdbbfdfc8796c5bdb1a74ee59fcda"><img data-src="http://joss.theoj.org/papers/94cfdbbfdfc8796c5bdb1a74ee59fcda/status.svg" alt="status" /></a>
+</center>
+<ul>
+<li>Actively developed on GitHub:</li>
+</ul>
+<p>
+<center>
+<a href="https://github.com/schalkdaniel/compboost" class="uri">https://github.com/schalkdaniel/compboost</a>
+</center>
+</p>
+<ul>
+<li>Project page:</li>
+</ul>
+<p>
+<center>
+<a href="https://compboost.org/" class="uri">https://compboost.org/</a>
+</center>
+</p>
+</section><section id="credits" class="slide level2">
 <h2>Credits</h2>
+<p>Slides were created with:</p>
 <ul>
 <li><a href="https://revealjs.com/"><strong>revealjs</strong></a></li>
 <li><a href="https://www.google.com"><strong>Font-Awesome:</strong></a></li>
