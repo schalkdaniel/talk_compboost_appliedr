@@ -160,6 +160,8 @@ The `compboost` package is a fast and flexible framework for model-based boostin
 ## Quick Start With Wrapper Functions
 
 ```{r cars, echo = TRUE}
+# devtools::install_github("schalkdaniel/compboost")
+# library(compboost)
 cboost = boostSplines(data = mulled_wine_data[,-2], 
   target = "mw_consumption", loss = LossQuadratic$new(), 
   learning.rate = 0.005, iterations = 6000, trace = 600)
