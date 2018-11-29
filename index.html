@@ -702,7 +702,7 @@ document.getElementsByTagName('head')[0].appendChild(style);
 </section></section>
 <section><section id="component-wise-boosting" class="title-slide slide level1"><h1>Component-Wise Boosting</h1></section><section id="the-idea-of-component-wise-boosting" class="slide level2">
 <h2>The Idea of Component-Wise Boosting</h2>
-<p><img data-src="figures/cboost_gif.svg" /></p>
+<p><img src="figures/cboost_gif_norisk.svg" width="80%" style="display: block; margin: auto;" /></p>
 </section><section id="why-component-wise-boosting" class="slide level2">
 <h2>Why Component-Wise Boosting?</h2>
 <ul>
@@ -743,7 +743,7 @@ document.getElementsByTagName('head')[0].appendChild(style);
 </section><section id="effect-visualization" class="slide level2">
 <h2>Effect Visualization</h2>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1">cboost<span class="op">$</span><span class="kw">plot</span>(<span class="st">&quot;age_spline&quot;</span>, <span class="dt">iters =</span> <span class="kw">c</span>(<span class="dv">200</span>, <span class="dv">500</span>, <span class="dv">1000</span>, <span class="dv">3000</span>))</a></code></pre></div>
-<p><img src="index_files/figure-revealjs/unnamed-chunk-4-1.png" width="60%" style="display: block; margin: auto;" /></p>
+<p><img src="index_files/figure-revealjs/unnamed-chunk-5-1.png" width="50%" style="display: block; margin: auto;" /></p>
 </section><section id="inbag-and-oob-behavior" class="slide level2">
 <h2>Inbag and OOB Behavior</h2>
 <p>To get an idea, how the model behaves on unseen data we use 75 % as training data and the other 25 % of the data to calculate the out of bag (OOB) risk:</p>
@@ -783,10 +783,10 @@ document.getElementsByTagName('head')[0].appendChild(style);
 <a class="sourceLine" id="cb6-7" data-line-number="7"></a>
 <a class="sourceLine" id="cb6-8" data-line-number="8">cboost<span class="op">$</span><span class="kw">train</span>(<span class="dv">6000</span>, <span class="dt">trace =</span> <span class="dv">1500</span>)</a>
 <a class="sourceLine" id="cb6-9" data-line-number="9"><span class="co">##    1/6000   risk = 5.6  microseconds = 1   oob_risk = 5.7   </span></a>
-<a class="sourceLine" id="cb6-10" data-line-number="10"><span class="co">## 1500/6000   risk = 0.99  microseconds = 2348546   oob_risk = 1.5   </span></a>
-<a class="sourceLine" id="cb6-11" data-line-number="11"><span class="co">## 3000/6000   risk = 0.37  microseconds = 4687547   oob_risk = 1.1   </span></a>
-<a class="sourceLine" id="cb6-12" data-line-number="12"><span class="co">## 4500/6000   risk = 0.17  microseconds = 7082161   oob_risk = 1.1   </span></a>
-<a class="sourceLine" id="cb6-13" data-line-number="13"><span class="co">## 6000/6000   risk = 0.092  microseconds = 9418308   oob_risk = 1.2   </span></a>
+<a class="sourceLine" id="cb6-10" data-line-number="10"><span class="co">## 1500/6000   risk = 0.99  microseconds = 2273253   oob_risk = 1.5   </span></a>
+<a class="sourceLine" id="cb6-11" data-line-number="11"><span class="co">## 3000/6000   risk = 0.37  microseconds = 4627247   oob_risk = 1.1   </span></a>
+<a class="sourceLine" id="cb6-12" data-line-number="12"><span class="co">## 4500/6000   risk = 0.17  microseconds = 6967574   oob_risk = 1.1   </span></a>
+<a class="sourceLine" id="cb6-13" data-line-number="13"><span class="co">## 6000/6000   risk = 0.092  microseconds = 9297542   oob_risk = 1.2   </span></a>
 <a class="sourceLine" id="cb6-14" data-line-number="14"><span class="co">## </span></a>
 <a class="sourceLine" id="cb6-15" data-line-number="15"><span class="co">## </span></a>
 <a class="sourceLine" id="cb6-16" data-line-number="16"><span class="co">## Train 6000 iterations in 9 Seconds.</span></a>
@@ -801,11 +801,11 @@ document.getElementsByTagName('head')[0].appendChild(style);
 <a class="sourceLine" id="cb7-6" data-line-number="6"><span class="kw">head</span>(logger_data)</a>
 <a class="sourceLine" id="cb7-7" data-line-number="7"><span class="co">##   _iterations microseconds oob_risk</span></a>
 <a class="sourceLine" id="cb7-8" data-line-number="8"><span class="co">## 1           1            1    5.671</span></a>
-<a class="sourceLine" id="cb7-9" data-line-number="9"><span class="co">## 2           2         1639    5.660</span></a>
-<a class="sourceLine" id="cb7-10" data-line-number="10"><span class="co">## 3           3         3216    5.649</span></a>
-<a class="sourceLine" id="cb7-11" data-line-number="11"><span class="co">## 4           4         4827    5.639</span></a>
-<a class="sourceLine" id="cb7-12" data-line-number="12"><span class="co">## 5           5         6390    5.628</span></a>
-<a class="sourceLine" id="cb7-13" data-line-number="13"><span class="co">## 6           6         7986    5.618</span></a></code></pre></div>
+<a class="sourceLine" id="cb7-9" data-line-number="9"><span class="co">## 2           2         1729    5.660</span></a>
+<a class="sourceLine" id="cb7-10" data-line-number="10"><span class="co">## 3           3         3408    5.649</span></a>
+<a class="sourceLine" id="cb7-11" data-line-number="11"><span class="co">## 4           4         5066    5.639</span></a>
+<a class="sourceLine" id="cb7-12" data-line-number="12"><span class="co">## 5           5         6720    5.628</span></a>
+<a class="sourceLine" id="cb7-13" data-line-number="13"><span class="co">## 6           6         8413    5.618</span></a></code></pre></div>
 </section><section id="visualization-of-inbag-and-oob-risk" class="slide level2">
 <h2>Visualization of Inbag and OOB Risk</h2>
 <div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" data-line-number="1">oob_trace =<span class="st"> </span>logger_data[[<span class="st">&quot;oob_risk&quot;</span>]]</a>
@@ -817,7 +817,7 @@ document.getElementsByTagName('head')[0].appendChild(style);
 <a class="sourceLine" id="cb8-7" data-line-number="7">  <span class="dt">iter =</span> <span class="kw">c</span>(<span class="kw">seq_along</span>(inbag_trace), <span class="kw">seq_along</span>(oob_trace))</a>
 <a class="sourceLine" id="cb8-8" data-line-number="8">)</a>
 <a class="sourceLine" id="cb8-9" data-line-number="9"><span class="kw">ggplot</span>(risk_data, <span class="kw">aes</span>(<span class="dt">x =</span> iter, <span class="dt">y =</span> risk, <span class="dt">color =</span> type)) <span class="op">+</span><span class="st"> </span><span class="kw">geom_line</span>()</a></code></pre></div>
-<p><img src="index_files/figure-revealjs/unnamed-chunk-11-1.png" width="45%" style="display: block; margin: auto;" /></p>
+<p><img src="index_files/figure-revealjs/unnamed-chunk-12-1.png" width="45%" style="display: block; margin: auto;" /></p>
 </section><section id="set-model-to-a-specific-iteration" class="slide level2">
 <h2>Set Model to a Specific Iteration</h2>
 <div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" data-line-number="1">cboost<span class="op">$</span><span class="kw">train</span>(<span class="dv">2200</span>)</a>
@@ -838,7 +838,7 @@ document.getElementsByTagName('head')[0].appendChild(style);
 </section><section id="feature-importance" class="slide level2">
 <h2>Feature Importance</h2>
 <div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" data-line-number="1">cboost<span class="op">$</span><span class="kw">plotFeatureImportance</span>(<span class="dt">num.feat =</span> 15L)</a></code></pre></div>
-<p><img src="index_files/figure-revealjs/unnamed-chunk-14-1.png" width="60%" style="display: block; margin: auto;" /> <!-- ## Retrain the Model
+<p><img src="index_files/figure-revealjs/unnamed-chunk-15-1.png" width="50%" style="display: block; margin: auto;" /> <!-- ## Retrain the Model
 
 
 ```r
@@ -866,19 +866,18 @@ cboost$train(10000)
 <h2>Using Custom Losses - Using the Loss</h2>
 <div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb12-1" data-line-number="1">cboost =<span class="st"> </span><span class="kw">boostSplines</span>(<span class="dt">data =</span> mulled_wine_data[,<span class="op">-</span><span class="dv">1</span>], </a>
 <a class="sourceLine" id="cb12-2" data-line-number="2">  <span class="dt">target =</span> <span class="st">&quot;mw_consumption_cups&quot;</span>, <span class="dt">loss =</span> my_custom_loss,</a>
-<a class="sourceLine" id="cb12-3" data-line-number="3">  <span class="dt">optimizer =</span> OptimizerCoordinateDescent<span class="op">$</span><span class="kw">new</span>(),  </a>
-<a class="sourceLine" id="cb12-4" data-line-number="4">  <span class="dt">learning.rate =</span> <span class="fl">0.005</span>, <span class="dt">iterations =</span> <span class="dv">500</span>, <span class="dt">trace =</span> <span class="dv">100</span>, </a>
-<a class="sourceLine" id="cb12-5" data-line-number="5">  <span class="dt">n.knots =</span> <span class="dv">10</span>, <span class="dt">degree =</span> <span class="dv">3</span>)</a>
-<a class="sourceLine" id="cb12-6" data-line-number="6"><span class="co">##   1/500   risk = 5.3  </span></a>
-<a class="sourceLine" id="cb12-7" data-line-number="7"><span class="co">## 100/500   risk = 3  </span></a>
-<a class="sourceLine" id="cb12-8" data-line-number="8"><span class="co">## 200/500   risk = 2.7  </span></a>
-<a class="sourceLine" id="cb12-9" data-line-number="9"><span class="co">## 300/500   risk = 2.6  </span></a>
-<a class="sourceLine" id="cb12-10" data-line-number="10"><span class="co">## 400/500   risk = 2.6  </span></a>
-<a class="sourceLine" id="cb12-11" data-line-number="11"><span class="co">## 500/500   risk = 2.5  </span></a>
+<a class="sourceLine" id="cb12-3" data-line-number="3">  <span class="dt">learning.rate =</span> <span class="fl">0.005</span>, <span class="dt">iterations =</span> <span class="dv">500</span>, <span class="dt">trace =</span> <span class="dv">100</span>, </a>
+<a class="sourceLine" id="cb12-4" data-line-number="4">  <span class="dt">n.knots =</span> <span class="dv">10</span>, <span class="dt">degree =</span> <span class="dv">3</span>)</a>
+<a class="sourceLine" id="cb12-5" data-line-number="5"><span class="co">##   1/500   risk = 5.3  </span></a>
+<a class="sourceLine" id="cb12-6" data-line-number="6"><span class="co">## 100/500   risk = 3  </span></a>
+<a class="sourceLine" id="cb12-7" data-line-number="7"><span class="co">## 200/500   risk = 2.7  </span></a>
+<a class="sourceLine" id="cb12-8" data-line-number="8"><span class="co">## 300/500   risk = 2.6  </span></a>
+<a class="sourceLine" id="cb12-9" data-line-number="9"><span class="co">## 400/500   risk = 2.6  </span></a>
+<a class="sourceLine" id="cb12-10" data-line-number="10"><span class="co">## 500/500   risk = 2.5  </span></a>
+<a class="sourceLine" id="cb12-11" data-line-number="11"><span class="co">## </span></a>
 <a class="sourceLine" id="cb12-12" data-line-number="12"><span class="co">## </span></a>
-<a class="sourceLine" id="cb12-13" data-line-number="13"><span class="co">## </span></a>
-<a class="sourceLine" id="cb12-14" data-line-number="14"><span class="co">## Train 500 iterations in 0 Seconds.</span></a>
-<a class="sourceLine" id="cb12-15" data-line-number="15"><span class="co">## Final risk based on the train set: 2.5</span></a></code></pre></div>
+<a class="sourceLine" id="cb12-13" data-line-number="13"><span class="co">## Train 500 iterations in 0 Seconds.</span></a>
+<a class="sourceLine" id="cb12-14" data-line-number="14"><span class="co">## Final risk based on the train set: 2.5</span></a></code></pre></div>
 </section><section id="further-functionalities" class="slide level2">
 <h2>Further Functionalities</h2>
 <ul>

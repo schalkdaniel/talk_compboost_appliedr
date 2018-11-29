@@ -19,7 +19,7 @@ output:
 ---
 
 ```{r, include=FALSE}
-knitr::opts_chunk$set(collapse = TRUE, fig.align = "center", out.width = "60%")
+knitr::opts_chunk$set(collapse = TRUE, fig.align = "center", out.width = "50%")
 
 # Load compboost developer version:
 devtools::load_all("../compboost")
@@ -131,7 +131,9 @@ With these data we want to answer the following questions:
 
 ## The Idea of Component-Wise Boosting
 
-![](figures/cboost_gif.svg)
+```{r, echo=FALSE, out.width="80%"}
+knitr::include_graphics("figures/cboost_gif_norisk.svg")
+```
 
 ## Why Component-Wise Boosting?
 
@@ -311,7 +313,6 @@ my_custom_loss = LossCustom$new(lossPoi, gradPoi, constInitPoi)
 ```{r}
 cboost = boostSplines(data = mulled_wine_data[,-1], 
   target = "mw_consumption_cups", loss = my_custom_loss,
-  optimizer = OptimizerCoordinateDescent$new(),  
   learning.rate = 0.005, iterations = 500, trace = 100, 
   n.knots = 10, degree = 3)
 ```
