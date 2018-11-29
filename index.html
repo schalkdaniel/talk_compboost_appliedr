@@ -511,6 +511,14 @@ document.getElementsByTagName('head')[0].appendChild(style);
     <link href="https://fonts.googleapis.com/css?family=Montserrat+Alternates" rel="stylesheet"> -->
     <link href="Font-Awesome/web-fonts-with-css/css/fontawesome-all.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Work+Sans" rel="stylesheet">
+    
+    <!-- <script>
+      var link = document.createElement( 'link' );
+      link.rel = 'stylesheet';
+      link.type = 'text/css';
+      link.href = window.location.search.match( /print-pdf/gi ) ? 'css/print/pdf.css' : 'css/print/paper.css';
+      document.getElementsByTagName( 'head' )[0].appendChild( link );
+    </script> -->
 </head>
 <body>
   <div class="reveal">
@@ -532,7 +540,7 @@ document.getElementsByTagName('head')[0].appendChild(style);
 <li><p>We own a small booth at the Christmas market that sells mulled wine.</p></li>
 <li><p>As we are very interested in our customers’ health, we only sell to customers who we expect to drink less than 15 liters per season.</p></li>
 <li><p>To estimate how much a customer drinks, we have collected data from 200 customers in recent years.</p></li>
-<li><p>These data include mulled wine consumption (in liter and cups), age, sex, country of origin, weight, body size, and 200 characteristics (that have absolutely no influence).</p></li>
+<li><p>These data include mulled wine consumption (in liter and cups), age, sex, country of origin, weight, body size, and 200 characteristics gained from app usage (that have absolutely no influence).</p></li>
 </ul>
 </section><section id="section-1" class="slide level2">
 <h2></h2>
@@ -546,7 +554,7 @@ document.getElementsByTagName('head')[0].appendChild(style);
 <th style="text-align: right;">age</th>
 <th style="text-align: right;">weight</th>
 <th style="text-align: right;">height</th>
-<th style="text-align: right;">noise1</th>
+<th style="text-align: right;">app_usage1</th>
 </tr>
 </thead>
 <tbody>
@@ -665,26 +673,31 @@ document.getElementsByTagName('head')[0].appendChild(style);
 <center>
 <strong>What can we do to answer all the questions?</strong>
 </center>
-<ul>
-<li>Fit a linear model?</li>
-<li>Fit a linear model on each feature and build the ensemble?</li>
-<li>Fit a regularized linear model?</li>
-<li>Train a random forest?</li>
-</ul>
 </section><section id="section-4" class="slide level2">
 <h2></h2>
 <center>
 <strong>What can we do to answer all the questions?</strong>
 </center>
 <ul>
+<li>Fit a linear model?</li>
+<li>Fit a linear model on each feature and build the ensemble?</li>
+<li>Fit a regularized linear model?</li>
+<li>Train a random forest?</li>
+</ul>
+</section><section id="section-5" class="slide level2">
+<h2></h2>
+<center>
+<strong>What can we do to answer all the questions?</strong>
+</center>
+<ul>
 <li><p>Fit a linear model?<br />
-<span class="math inline">\(\rightarrow\)</span> Not possible <span class="math inline">\(p &gt; n\)</span></p></li>
+<span class="math inline">\(\rightarrow\)</span> Not possible since <span class="math inline">\(p &gt; n\)</span>.</p></li>
 <li><p>Fit a linear model on each feature and build the ensemble?<br />
 <span class="math inline">\(\rightarrow\)</span> Possible, but how should we determine important effects?</p></li>
+<li><p>Fit a regularized linear model?<br />
+<span class="math inline">\(\rightarrow\)</span> Possible, but with the linear model we get just linear effects.</p></li>
 <li><p>Train a random forest?<br />
 <span class="math inline">\(\rightarrow\)</span> Possible, but we want to interpret the effects.</p></li>
-<li><p>Fit a regularized linear model?<br />
-<span class="math inline">\(\rightarrow\)</span> Possible, and basically the same as component-wise boosting.</p></li>
 </ul>
 </section></section>
 <section><section id="component-wise-boosting" class="title-slide slide level1"><h1>Component-Wise Boosting</h1></section><section id="the-idea-of-component-wise-boosting" class="slide level2">
@@ -709,9 +722,9 @@ document.getElementsByTagName('head')[0].appendChild(style);
 </section></section>
 <section><section id="applying-compboost-to-the-use-case" class="title-slide slide level1"><h1>Applying <code>compboost</code> to the Use-Case</h1></section><section id="quick-start-with-wrapper-functions" class="slide level2">
 <h2>Quick Start With Wrapper Functions</h2>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1">cboost =<span class="st"> </span><span class="kw">boostSplines</span>(<span class="dt">data =</span> mulled_wine_data[,<span class="op">-</span><span class="dv">2</span>], <span class="dt">target =</span> <span class="st">&quot;mw_consumption&quot;</span>, </a>
-<a class="sourceLine" id="cb1-2" data-line-number="2">  <span class="dt">loss =</span> LossQuadratic<span class="op">$</span><span class="kw">new</span>(), <span class="dt">learning.rate =</span> <span class="fl">0.005</span>, <span class="dt">iterations =</span> <span class="dv">6000</span>, </a>
-<a class="sourceLine" id="cb1-3" data-line-number="3">  <span class="dt">trace =</span> <span class="dv">600</span>)</a>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1">cboost =<span class="st"> </span><span class="kw">boostSplines</span>(<span class="dt">data =</span> mulled_wine_data[,<span class="op">-</span><span class="dv">2</span>], </a>
+<a class="sourceLine" id="cb1-2" data-line-number="2">  <span class="dt">target =</span> <span class="st">&quot;mw_consumption&quot;</span>, <span class="dt">loss =</span> LossQuadratic<span class="op">$</span><span class="kw">new</span>(), </a>
+<a class="sourceLine" id="cb1-3" data-line-number="3">  <span class="dt">learning.rate =</span> <span class="fl">0.005</span>, <span class="dt">iterations =</span> <span class="dv">6000</span>, <span class="dt">trace =</span> <span class="dv">600</span>)</a>
 <a class="sourceLine" id="cb1-4" data-line-number="4"><span class="co">##    1/6000   risk = 5.6  </span></a>
 <a class="sourceLine" id="cb1-5" data-line-number="5"><span class="co">##  600/6000   risk = 2.5  </span></a>
 <a class="sourceLine" id="cb1-6" data-line-number="6"><span class="co">## 1200/6000   risk = 1.3  </span></a>
@@ -725,12 +738,12 @@ document.getElementsByTagName('head')[0].appendChild(style);
 <a class="sourceLine" id="cb1-14" data-line-number="14"><span class="co">## 6000/6000   risk = 0.064  </span></a>
 <a class="sourceLine" id="cb1-15" data-line-number="15"><span class="co">## </span></a>
 <a class="sourceLine" id="cb1-16" data-line-number="16"><span class="co">## </span></a>
-<a class="sourceLine" id="cb1-17" data-line-number="17"><span class="co">## Train 6000 iterations in 9 Seconds.</span></a>
+<a class="sourceLine" id="cb1-17" data-line-number="17"><span class="co">## Train 6000 iterations in 8 Seconds.</span></a>
 <a class="sourceLine" id="cb1-18" data-line-number="18"><span class="co">## Final risk based on the train set: 0.064</span></a></code></pre></div>
 </section><section id="effect-visualization" class="slide level2">
 <h2>Effect Visualization</h2>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1">cboost<span class="op">$</span><span class="kw">plot</span>(<span class="st">&quot;age_spline&quot;</span>, <span class="dt">iters =</span> <span class="kw">c</span>(<span class="dv">200</span>, <span class="dv">500</span>, <span class="dv">1000</span>, <span class="dv">3000</span>))</a></code></pre></div>
-<p><img src="index_files/figure-revealjs/unnamed-chunk-4-1.png" width="70%" style="display: block; margin: auto;" /></p>
+<p><img src="index_files/figure-revealjs/unnamed-chunk-4-1.png" width="60%" style="display: block; margin: auto;" /></p>
 </section><section id="inbag-and-oob-behavior" class="slide level2">
 <h2>Inbag and OOB Behavior</h2>
 <p>To get an idea, how the model behaves on unseen data we use 75 % as training data and the other 25 % of the data to calculate the out of bag (OOB) risk:</p>
@@ -743,15 +756,17 @@ document.getElementsByTagName('head')[0].appendChild(style);
 <a class="sourceLine" id="cb4-2" data-line-number="2">  <span class="dt">target =</span> <span class="st">&quot;mw_consumption&quot;</span>, <span class="dt">loss =</span> LossQuadratic<span class="op">$</span><span class="kw">new</span>(), </a>
 <a class="sourceLine" id="cb4-3" data-line-number="3">  <span class="dt">learning.rate =</span> <span class="fl">0.005</span>)</a>
 <a class="sourceLine" id="cb4-4" data-line-number="4"></a>
-<a class="sourceLine" id="cb4-5" data-line-number="5"><span class="cf">for</span> (feature_name <span class="cf">in</span> <span class="kw">setdiff</span>(<span class="kw">names</span>(mulled_wine_data[,<span class="op">-</span><span class="dv">2</span>]), target)) {</a>
-<a class="sourceLine" id="cb4-6" data-line-number="6">  <span class="cf">if</span> (feature_name <span class="op">%in%</span><span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;gender&quot;</span>, <span class="st">&quot;country&quot;</span>)) {</a>
-<a class="sourceLine" id="cb4-7" data-line-number="7">    cboost<span class="op">$</span><span class="kw">addBaselearner</span>(<span class="dt">feature =</span> feature_name, <span class="dt">id =</span> <span class="st">&quot;category&quot;</span>, </a>
-<a class="sourceLine" id="cb4-8" data-line-number="8">      <span class="dt">bl.factory =</span> BaselearnerPolynomial, <span class="dt">intercept =</span> <span class="ot">FALSE</span>)</a>
-<a class="sourceLine" id="cb4-9" data-line-number="9">  } <span class="cf">else</span> {</a>
-<a class="sourceLine" id="cb4-10" data-line-number="10">    cboost<span class="op">$</span><span class="kw">addBaselearner</span>(<span class="dt">feature =</span> feature_name, <span class="dt">id =</span> <span class="st">&quot;spline&quot;</span>, </a>
-<a class="sourceLine" id="cb4-11" data-line-number="11">      <span class="dt">bl.factory =</span> BaselearnerPSpline, <span class="dt">degree =</span> <span class="dv">3</span>, <span class="dt">n.knots =</span> <span class="dv">10</span>)</a>
-<a class="sourceLine" id="cb4-12" data-line-number="12">  }</a>
-<a class="sourceLine" id="cb4-13" data-line-number="13">}</a></code></pre></div>
+<a class="sourceLine" id="cb4-5" data-line-number="5">target_vars =<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;mw_consumption&quot;</span>, <span class="st">&quot;mw_consumption_cups&quot;</span>)</a>
+<a class="sourceLine" id="cb4-6" data-line-number="6"></a>
+<a class="sourceLine" id="cb4-7" data-line-number="7"><span class="cf">for</span> (feature_name <span class="cf">in</span> <span class="kw">setdiff</span>(<span class="kw">names</span>(mulled_wine_data), target_vars)) {</a>
+<a class="sourceLine" id="cb4-8" data-line-number="8">  <span class="cf">if</span> (feature_name <span class="op">%in%</span><span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;gender&quot;</span>, <span class="st">&quot;country&quot;</span>)) {</a>
+<a class="sourceLine" id="cb4-9" data-line-number="9">    cboost<span class="op">$</span><span class="kw">addBaselearner</span>(<span class="dt">feature =</span> feature_name, <span class="dt">id =</span> <span class="st">&quot;category&quot;</span>, </a>
+<a class="sourceLine" id="cb4-10" data-line-number="10">      <span class="dt">bl.factory =</span> BaselearnerPolynomial, <span class="dt">intercept =</span> <span class="ot">FALSE</span>)</a>
+<a class="sourceLine" id="cb4-11" data-line-number="11">  } <span class="cf">else</span> {</a>
+<a class="sourceLine" id="cb4-12" data-line-number="12">    cboost<span class="op">$</span><span class="kw">addBaselearner</span>(<span class="dt">feature =</span> feature_name, <span class="dt">id =</span> <span class="st">&quot;spline&quot;</span>, </a>
+<a class="sourceLine" id="cb4-13" data-line-number="13">      <span class="dt">bl.factory =</span> BaselearnerPSpline, <span class="dt">degree =</span> <span class="dv">3</span>, <span class="dt">n.knots =</span> <span class="dv">10</span>)</a>
+<a class="sourceLine" id="cb4-14" data-line-number="14">  }</a>
+<a class="sourceLine" id="cb4-15" data-line-number="15">}</a></code></pre></div>
 </section><section id="oob-data" class="slide level2">
 <h2>OOB Data</h2>
 <p>To track the OOB risk we have to prepare the new data so that <code>compboost</code> knows the new data sources:</p>
@@ -768,10 +783,10 @@ document.getElementsByTagName('head')[0].appendChild(style);
 <a class="sourceLine" id="cb6-7" data-line-number="7"></a>
 <a class="sourceLine" id="cb6-8" data-line-number="8">cboost<span class="op">$</span><span class="kw">train</span>(<span class="dv">6000</span>, <span class="dt">trace =</span> <span class="dv">1500</span>)</a>
 <a class="sourceLine" id="cb6-9" data-line-number="9"><span class="co">##    1/6000   risk = 5.6  microseconds = 1   oob_risk = 5.7   </span></a>
-<a class="sourceLine" id="cb6-10" data-line-number="10"><span class="co">## 1500/6000   risk = 0.99  microseconds = 2518925   oob_risk = 1.5   </span></a>
-<a class="sourceLine" id="cb6-11" data-line-number="11"><span class="co">## 3000/6000   risk = 0.37  microseconds = 4848996   oob_risk = 1.1   </span></a>
-<a class="sourceLine" id="cb6-12" data-line-number="12"><span class="co">## 4500/6000   risk = 0.17  microseconds = 7171435   oob_risk = 1.1   </span></a>
-<a class="sourceLine" id="cb6-13" data-line-number="13"><span class="co">## 6000/6000   risk = 0.092  microseconds = 9495656   oob_risk = 1.2   </span></a>
+<a class="sourceLine" id="cb6-10" data-line-number="10"><span class="co">## 1500/6000   risk = 0.99  microseconds = 2277696   oob_risk = 1.5   </span></a>
+<a class="sourceLine" id="cb6-11" data-line-number="11"><span class="co">## 3000/6000   risk = 0.37  microseconds = 4652284   oob_risk = 1.1   </span></a>
+<a class="sourceLine" id="cb6-12" data-line-number="12"><span class="co">## 4500/6000   risk = 0.17  microseconds = 7060627   oob_risk = 1.1   </span></a>
+<a class="sourceLine" id="cb6-13" data-line-number="13"><span class="co">## 6000/6000   risk = 0.092  microseconds = 9430478   oob_risk = 1.2   </span></a>
 <a class="sourceLine" id="cb6-14" data-line-number="14"><span class="co">## </span></a>
 <a class="sourceLine" id="cb6-15" data-line-number="15"><span class="co">## </span></a>
 <a class="sourceLine" id="cb6-16" data-line-number="16"><span class="co">## Train 6000 iterations in 9 Seconds.</span></a>
@@ -786,11 +801,11 @@ document.getElementsByTagName('head')[0].appendChild(style);
 <a class="sourceLine" id="cb7-6" data-line-number="6"><span class="kw">head</span>(logger_data)</a>
 <a class="sourceLine" id="cb7-7" data-line-number="7"><span class="co">##   _iterations microseconds oob_risk</span></a>
 <a class="sourceLine" id="cb7-8" data-line-number="8"><span class="co">## 1           1            1    5.671</span></a>
-<a class="sourceLine" id="cb7-9" data-line-number="9"><span class="co">## 2           2         1728    5.660</span></a>
-<a class="sourceLine" id="cb7-10" data-line-number="10"><span class="co">## 3           3         3374    5.649</span></a>
-<a class="sourceLine" id="cb7-11" data-line-number="11"><span class="co">## 4           4         5043    5.639</span></a>
-<a class="sourceLine" id="cb7-12" data-line-number="12"><span class="co">## 5           5         6697    5.628</span></a>
-<a class="sourceLine" id="cb7-13" data-line-number="13"><span class="co">## 6           6         8428    5.618</span></a></code></pre></div>
+<a class="sourceLine" id="cb7-9" data-line-number="9"><span class="co">## 2           2         1616    5.660</span></a>
+<a class="sourceLine" id="cb7-10" data-line-number="10"><span class="co">## 3           3         3198    5.649</span></a>
+<a class="sourceLine" id="cb7-11" data-line-number="11"><span class="co">## 4           4         4759    5.639</span></a>
+<a class="sourceLine" id="cb7-12" data-line-number="12"><span class="co">## 5           5         6316    5.628</span></a>
+<a class="sourceLine" id="cb7-13" data-line-number="13"><span class="co">## 6           6         7877    5.618</span></a></code></pre></div>
 </section><section id="visualization-of-inbag-and-oob-risk" class="slide level2">
 <h2>Visualization of Inbag and OOB Risk</h2>
 <div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" data-line-number="1">oob_trace =<span class="st"> </span>logger_data[[<span class="st">&quot;oob_risk&quot;</span>]]</a>
@@ -802,7 +817,7 @@ document.getElementsByTagName('head')[0].appendChild(style);
 <a class="sourceLine" id="cb8-7" data-line-number="7">  <span class="dt">iter =</span> <span class="kw">c</span>(<span class="kw">seq_along</span>(inbag_trace), <span class="kw">seq_along</span>(oob_trace))</a>
 <a class="sourceLine" id="cb8-8" data-line-number="8">)</a>
 <a class="sourceLine" id="cb8-9" data-line-number="9"><span class="kw">ggplot</span>(risk_data, <span class="kw">aes</span>(<span class="dt">x =</span> iter, <span class="dt">y =</span> risk, <span class="dt">color =</span> type)) <span class="op">+</span><span class="st"> </span><span class="kw">geom_line</span>()</a></code></pre></div>
-<p><img src="index_files/figure-revealjs/unnamed-chunk-11-1.png" width="50%" style="display: block; margin: auto;" /></p>
+<p><img src="index_files/figure-revealjs/unnamed-chunk-11-1.png" width="45%" style="display: block; margin: auto;" /></p>
 </section><section id="set-model-to-a-specific-iteration" class="slide level2">
 <h2>Set Model to a Specific Iteration</h2>
 <div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" data-line-number="1">cboost<span class="op">$</span><span class="kw">train</span>(<span class="dv">2200</span>)</a>
@@ -823,7 +838,7 @@ document.getElementsByTagName('head')[0].appendChild(style);
 </section><section id="feature-importance" class="slide level2">
 <h2>Feature Importance</h2>
 <div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" data-line-number="1">cboost<span class="op">$</span><span class="kw">plotFeatureImportance</span>(<span class="dt">num.feat =</span> 15L)</a></code></pre></div>
-<p><img src="index_files/figure-revealjs/unnamed-chunk-14-1.png" width="70%" style="display: block; margin: auto;" /> <!-- ## Retrain the Model
+<p><img src="index_files/figure-revealjs/unnamed-chunk-14-1.png" width="60%" style="display: block; margin: auto;" /> <!-- ## Retrain the Model
 
 
 ```r
@@ -891,7 +906,7 @@ cboost$train(10000)
 <li>Debugging of <code>C++</code> from <code>R</code> can be very annoying and time-consuming</li>
 </ul>
 </section></section>
-<section><section id="whats-next" class="title-slide slide level1"><h1>What’s Next?</h1></section><section id="section-5" class="slide level2">
+<section><section id="whats-next" class="title-slide slide level1"><h1>What’s Next?</h1></section><section id="section-6" class="slide level2">
 <h2></h2>
 <ul>
 <li>Better selection process of base-learner</li>
@@ -904,22 +919,18 @@ cboost$train(10000)
 </ul></li>
 </ul>
 </section></section>
-<section><section id="thanks-for-your-attention" class="title-slide slide level1"><h1>Thanks for your attention!</h1></section><section id="section-6" class="slide level2">
+<section><section id="thanks-for-your-attention" class="title-slide slide level1"><h1>Thanks for your attention!</h1></section><section id="section-7" class="slide level2">
 <h2></h2>
 <center>
 <a href="https://travis-ci.org/schalkdaniel/compboost"><img data-src="https://travis-ci.org/schalkdaniel/compboost.svg?branch=master" alt="Build Status" /></a> <a href="https://ci.appveyor.com/project/schalkdaniel/compboost"><img data-src="https://ci.appveyor.com/api/projects/status/github/schalkdaniel/compboost?branch=master&amp;svg=true" alt="AppVeyor Build Status" /></a> <a href="https://coveralls.io/github/schalkdaniel/compboost?branch=master"><img data-src="https://coveralls.io/repos/github/schalkdaniel/compboost/badge.svg?branch=master" alt="Coverage Status" /></a> <a href="#/license"><img data-src="https://img.shields.io/github/license/mashape/apistatus.svg?maxAge=2592000" alt="license" /></a> <a href="https://cran.r-project.org/package=compboost"><img data-src="http://www.r-pkg.org/badges/version/compboost" alt="CRAN_Status_Badge" /></a> <a href="http://joss.theoj.org/papers/94cfdbbfdfc8796c5bdb1a74ee59fcda"><img data-src="http://joss.theoj.org/papers/94cfdbbfdfc8796c5bdb1a74ee59fcda/status.svg" alt="status" /></a>
 </center>
-<ul>
-<li>Actively developed on GitHub:</li>
-</ul>
+<p><strong>Actively developed on GitHub:</strong></p>
 <p>
 <center>
 <a href="https://github.com/schalkdaniel/compboost" class="uri">https://github.com/schalkdaniel/compboost</a>
 </center>
 </p>
-<ul>
-<li>Project page:</li>
-</ul>
+<p><strong>Project page:</strong></p>
 <p>
 <center>
 <a href="https://compboost.org/" class="uri">https://compboost.org/</a>
@@ -993,7 +1004,9 @@ cboost$train(10000)
      * Hack to include paralax background and reveal.js-menu
      */
     Reveal.initialize({
-      parallaxBackgroundImage: "figures/parallax_section.jpg"
+      parallaxBackgroundImage: "figures/parallax_section.jpg",
+      width: 960,
+      height: 702
       /*
        * This does not work at the moment:
        dependencies: [

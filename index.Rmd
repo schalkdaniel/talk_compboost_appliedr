@@ -19,7 +19,7 @@ output:
 ---
 
 ```{r, include=FALSE}
-knitr::opts_chunk$set(collapse = TRUE, fig.align = "center", out.width = "70%")
+knitr::opts_chunk$set(collapse = TRUE, fig.align = "center", out.width = "60%")
 
 # Load compboost developer version:
 devtools::load_all("../compboost")
@@ -60,7 +60,7 @@ mulled_wine_data = data.frame(
 
 for (i in 1:200) {
   set.seed(i * 3)
-  mulled_wine_data[[paste0("noise", i)]] = runif(n = n_sim)
+  mulled_wine_data[[paste0("app_usage", i)]] = runif(n = n_sim)
 }
 ```
 
@@ -75,7 +75,7 @@ for (i in 1:200) {
 
 -   To estimate how much a customer drinks, we have collected data from 200 customers in recent years.
 
--   These data include mulled wine consumption (in liter and cups), age, sex, country of origin, weight, body size, and 200 characteristics (that have absolutely no influence).
+-   These data include mulled wine consumption (in liter and cups), age, sex, country of origin, weight, body size, and 200 characteristics gained from app usage (that have absolutely no influence).
 
 ##
 
@@ -115,22 +115,19 @@ With these data we want to answer the following questions:
 </center>
 
 - Fit a linear model? \
-  $\rightarrow$ Not possible $p > n$
+  $\rightarrow$ Not possible since $p > n$.
 
 - Fit a linear model on each feature and build the ensemble? \
   $\rightarrow$ Possible, but how should we determine important effects?
 
+- Fit a regularized linear model? \
+  $\rightarrow$ Possible, but with the linear model we get just linear effects.
+
 - Train a random forest? \
   $\rightarrow$ Possible, but we want to interpret the effects.
 
-- Fit a regularized linear model? \
-  $\rightarrow$ Possible, and basically the same as component-wise boosting.
 
 # Component-Wise Boosting
-
-<!-- ## Component ... what?
-
-<iframe src="https://giphy.com/embed/pPhyAv5t9V8djyRFJH" width="720" height="525" frameBorder="0" class="giphy-embed" allowFullScreen></iframe> -->
 
 ## The Idea of Component-Wise Boosting
 
@@ -161,9 +158,9 @@ The `compboost` package is a fast and flexible framework for model-based boostin
 ## Quick Start With Wrapper Functions
 
 ```{r cars, echo = TRUE}
-cboost = boostSplines(data = mulled_wine_data[,-2], target = "mw_consumption", 
-  loss = LossQuadratic$new(), learning.rate = 0.005, iterations = 6000, 
-  trace = 600)
+cboost = boostSplines(data = mulled_wine_data[,-2], 
+  target = "mw_consumption", loss = LossQuadratic$new(), 
+  learning.rate = 0.005, iterations = 6000, trace = 600)
 ```
 
 ## Effect Visualization
@@ -254,7 +251,7 @@ risk_data = data.frame(
 )
 ggplot(risk_data, aes(x = iter, y = risk, color = type)) + geom_line()
 ```
-```{r, fig.height=3, fig.width=4, out.width="50%", echo=FALSE}
+```{r, fig.height=3, fig.width=4, out.width="45%", echo=FALSE}
 oob_trace = logger_data[["oob_risk"]]
 
 risk_data = data.frame(
