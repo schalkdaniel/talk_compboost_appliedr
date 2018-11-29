@@ -15,3 +15,11 @@ This template highly depends on the great work others have already done:
 - [**rmarkdown**](https://rmarkdown.rstudio.com/)
 - [**revealjs (R Package)**](https://cran.r-project.org/web/packages/revealjs/index.html)
 - [**Google Fonts**](https://fonts.google.com/)
+
+## Extract PDF 
+
+You can extract the pdf with decktape and docker:
+
+```
+sudo docker run --rm -t -v `pwd`:/slides astefanutti/decktape reveal https://danielschalk.com/talk_compboost_appliedr/#/ slides.pdf
+```

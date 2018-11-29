@@ -783,10 +783,10 @@ document.getElementsByTagName('head')[0].appendChild(style);
 <a class="sourceLine" id="cb6-7" data-line-number="7"></a>
 <a class="sourceLine" id="cb6-8" data-line-number="8">cboost<span class="op">$</span><span class="kw">train</span>(<span class="dv">6000</span>, <span class="dt">trace =</span> <span class="dv">1500</span>)</a>
 <a class="sourceLine" id="cb6-9" data-line-number="9"><span class="co">##    1/6000   risk = 5.6  microseconds = 1   oob_risk = 5.7   </span></a>
-<a class="sourceLine" id="cb6-10" data-line-number="10"><span class="co">## 1500/6000   risk = 0.99  microseconds = 2301361   oob_risk = 1.5   </span></a>
-<a class="sourceLine" id="cb6-11" data-line-number="11"><span class="co">## 3000/6000   risk = 0.37  microseconds = 4683177   oob_risk = 1.1   </span></a>
-<a class="sourceLine" id="cb6-12" data-line-number="12"><span class="co">## 4500/6000   risk = 0.17  microseconds = 7065513   oob_risk = 1.1   </span></a>
-<a class="sourceLine" id="cb6-13" data-line-number="13"><span class="co">## 6000/6000   risk = 0.092  microseconds = 9483205   oob_risk = 1.2   </span></a>
+<a class="sourceLine" id="cb6-10" data-line-number="10"><span class="co">## 1500/6000   risk = 0.99  microseconds = 2307454   oob_risk = 1.5   </span></a>
+<a class="sourceLine" id="cb6-11" data-line-number="11"><span class="co">## 3000/6000   risk = 0.37  microseconds = 4748545   oob_risk = 1.1   </span></a>
+<a class="sourceLine" id="cb6-12" data-line-number="12"><span class="co">## 4500/6000   risk = 0.17  microseconds = 7162789   oob_risk = 1.1   </span></a>
+<a class="sourceLine" id="cb6-13" data-line-number="13"><span class="co">## 6000/6000   risk = 0.092  microseconds = 9707436   oob_risk = 1.2   </span></a>
 <a class="sourceLine" id="cb6-14" data-line-number="14"><span class="co">## </span></a>
 <a class="sourceLine" id="cb6-15" data-line-number="15"><span class="co">## </span></a>
 <a class="sourceLine" id="cb6-16" data-line-number="16"><span class="co">## Train 6000 iterations in 9 Seconds.</span></a>
@@ -801,11 +801,11 @@ document.getElementsByTagName('head')[0].appendChild(style);
 <a class="sourceLine" id="cb7-6" data-line-number="6"><span class="kw">head</span>(logger_data)</a>
 <a class="sourceLine" id="cb7-7" data-line-number="7"><span class="co">##   _iterations microseconds oob_risk</span></a>
 <a class="sourceLine" id="cb7-8" data-line-number="8"><span class="co">## 1           1            1    5.671</span></a>
-<a class="sourceLine" id="cb7-9" data-line-number="9"><span class="co">## 2           2         1679    5.660</span></a>
-<a class="sourceLine" id="cb7-10" data-line-number="10"><span class="co">## 3           3         3387    5.649</span></a>
-<a class="sourceLine" id="cb7-11" data-line-number="11"><span class="co">## 4           4         4999    5.639</span></a>
-<a class="sourceLine" id="cb7-12" data-line-number="12"><span class="co">## 5           5         6614    5.628</span></a>
-<a class="sourceLine" id="cb7-13" data-line-number="13"><span class="co">## 6           6         8231    5.618</span></a></code></pre></div>
+<a class="sourceLine" id="cb7-9" data-line-number="9"><span class="co">## 2           2         1633    5.660</span></a>
+<a class="sourceLine" id="cb7-10" data-line-number="10"><span class="co">## 3           3         3158    5.649</span></a>
+<a class="sourceLine" id="cb7-11" data-line-number="11"><span class="co">## 4           4         4735    5.639</span></a>
+<a class="sourceLine" id="cb7-12" data-line-number="12"><span class="co">## 5           5         6245    5.628</span></a>
+<a class="sourceLine" id="cb7-13" data-line-number="13"><span class="co">## 6           6         7760    5.618</span></a></code></pre></div>
 </section><section id="visualization-of-inbag-and-oob-risk" class="slide level2">
 <h2>Visualization of Inbag and OOB Risk</h2>
 <div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" data-line-number="1">oob_trace =<span class="st"> </span>logger_data[[<span class="st">&quot;oob_risk&quot;</span>]]</a>
@@ -940,7 +940,7 @@ cboost$train(10000)
 <p>Slides were created with:</p>
 <ul>
 <li><a href="https://revealjs.com/"><strong>revealjs</strong></a></li>
-<li><a href="https://www.google.com"><strong>Font-Awesome:</strong></a></li>
+<li><a href="https://www.google.com"><strong>Font-Awesome</strong></a></li>
 <li><a href="https://rmarkdown.rstudio.com/"><strong>rmarkdown</strong></a></li>
 <li><a href="https://cran.r-project.org/web/packages/revealjs/index.html"><strong>revealjs (R Package)</strong></a></li>
 <li><a href="https://fonts.google.com/"><strong>Google Fonts</strong></a></li>

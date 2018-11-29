@@ -377,7 +377,7 @@ cboost = boostSplines(data = mulled_wine_data[,-1],
 Slides were created with:
 
 - [**revealjs**](https://revealjs.com/)
-- [**Font-Awesome:**](https://www.google.com)
+- [**Font-Awesome**](https://www.google.com)
 - [**rmarkdown**](https://rmarkdown.rstudio.com/)
 - [**revealjs (R Package)**](https://cran.r-project.org/web/packages/revealjs/index.html)
 - [**Google Fonts**](https://fonts.google.com/)
