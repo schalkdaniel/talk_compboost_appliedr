@@ -290,7 +290,7 @@ cboost$train(10000)
 
 ## Using Custom Losses - Defining a Loss
 
-Now we recognize that the customers do not buy the wine in liters but per cup, therefore it might be better to use a Poisson loss to take the counting data into account. For that reason we define a new custom loss:
+As customers do not buy the wine in liters but per cup, it might be better to use a Poisson loss to take the counting data into account. For that reason we define a custom loss:
 
 ```{r}
 lossPoi = function (truth, pred) {

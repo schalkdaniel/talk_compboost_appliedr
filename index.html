@@ -783,10 +783,10 @@ document.getElementsByTagName('head')[0].appendChild(style);
 <a class="sourceLine" id="cb6-7" data-line-number="7"></a>
 <a class="sourceLine" id="cb6-8" data-line-number="8">cboost<span class="op">$</span><span class="kw">train</span>(<span class="dv">6000</span>, <span class="dt">trace =</span> <span class="dv">1500</span>)</a>
 <a class="sourceLine" id="cb6-9" data-line-number="9"><span class="co">##    1/6000   risk = 5.6  microseconds = 1   oob_risk = 5.7   </span></a>
-<a class="sourceLine" id="cb6-10" data-line-number="10"><span class="co">## 1500/6000   risk = 0.99  microseconds = 2277696   oob_risk = 1.5   </span></a>
-<a class="sourceLine" id="cb6-11" data-line-number="11"><span class="co">## 3000/6000   risk = 0.37  microseconds = 4652284   oob_risk = 1.1   </span></a>
-<a class="sourceLine" id="cb6-12" data-line-number="12"><span class="co">## 4500/6000   risk = 0.17  microseconds = 7060627   oob_risk = 1.1   </span></a>
-<a class="sourceLine" id="cb6-13" data-line-number="13"><span class="co">## 6000/6000   risk = 0.092  microseconds = 9430478   oob_risk = 1.2   </span></a>
+<a class="sourceLine" id="cb6-10" data-line-number="10"><span class="co">## 1500/6000   risk = 0.99  microseconds = 2348546   oob_risk = 1.5   </span></a>
+<a class="sourceLine" id="cb6-11" data-line-number="11"><span class="co">## 3000/6000   risk = 0.37  microseconds = 4687547   oob_risk = 1.1   </span></a>
+<a class="sourceLine" id="cb6-12" data-line-number="12"><span class="co">## 4500/6000   risk = 0.17  microseconds = 7082161   oob_risk = 1.1   </span></a>
+<a class="sourceLine" id="cb6-13" data-line-number="13"><span class="co">## 6000/6000   risk = 0.092  microseconds = 9418308   oob_risk = 1.2   </span></a>
 <a class="sourceLine" id="cb6-14" data-line-number="14"><span class="co">## </span></a>
 <a class="sourceLine" id="cb6-15" data-line-number="15"><span class="co">## </span></a>
 <a class="sourceLine" id="cb6-16" data-line-number="16"><span class="co">## Train 6000 iterations in 9 Seconds.</span></a>
@@ -801,11 +801,11 @@ document.getElementsByTagName('head')[0].appendChild(style);
 <a class="sourceLine" id="cb7-6" data-line-number="6"><span class="kw">head</span>(logger_data)</a>
 <a class="sourceLine" id="cb7-7" data-line-number="7"><span class="co">##   _iterations microseconds oob_risk</span></a>
 <a class="sourceLine" id="cb7-8" data-line-number="8"><span class="co">## 1           1            1    5.671</span></a>
-<a class="sourceLine" id="cb7-9" data-line-number="9"><span class="co">## 2           2         1616    5.660</span></a>
-<a class="sourceLine" id="cb7-10" data-line-number="10"><span class="co">## 3           3         3198    5.649</span></a>
-<a class="sourceLine" id="cb7-11" data-line-number="11"><span class="co">## 4           4         4759    5.639</span></a>
-<a class="sourceLine" id="cb7-12" data-line-number="12"><span class="co">## 5           5         6316    5.628</span></a>
-<a class="sourceLine" id="cb7-13" data-line-number="13"><span class="co">## 6           6         7877    5.618</span></a></code></pre></div>
+<a class="sourceLine" id="cb7-9" data-line-number="9"><span class="co">## 2           2         1639    5.660</span></a>
+<a class="sourceLine" id="cb7-10" data-line-number="10"><span class="co">## 3           3         3216    5.649</span></a>
+<a class="sourceLine" id="cb7-11" data-line-number="11"><span class="co">## 4           4         4827    5.639</span></a>
+<a class="sourceLine" id="cb7-12" data-line-number="12"><span class="co">## 5           5         6390    5.628</span></a>
+<a class="sourceLine" id="cb7-13" data-line-number="13"><span class="co">## 6           6         7986    5.618</span></a></code></pre></div>
 </section><section id="visualization-of-inbag-and-oob-risk" class="slide level2">
 <h2>Visualization of Inbag and OOB Risk</h2>
 <div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" data-line-number="1">oob_trace =<span class="st"> </span>logger_data[[<span class="st">&quot;oob_risk&quot;</span>]]</a>
@@ -850,7 +850,7 @@ cboost$train(10000)
  --></p>
 </section><section id="using-custom-losses---defining-a-loss" class="slide level2">
 <h2>Using Custom Losses - Defining a Loss</h2>
-<p>Now we recognize that the customers do not buy the wine in liters but per cup, therefore it might be better to use a Poisson loss to take the counting data into account. For that reason we define a new custom loss:</p>
+<p>As customers do not buy the wine in liters but per cup, it might be better to use a Poisson loss to take the counting data into account. For that reason we define a custom loss:</p>
 <div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb11-1" data-line-number="1">lossPoi =<span class="st"> </span><span class="cf">function</span> (truth, pred) {</a>
 <a class="sourceLine" id="cb11-2" data-line-number="2">  <span class="kw">return</span> (<span class="op">-</span><span class="kw">log</span>(<span class="kw">exp</span>(pred)<span class="op">^</span>truth <span class="op">*</span><span class="st"> </span><span class="kw">exp</span>(<span class="op">-</span><span class="kw">exp</span>(pred)) <span class="op">/</span><span class="st"> </span><span class="kw">gamma</span>(truth <span class="op">+</span><span class="st"> </span><span class="dv">1</span>)))</a>
 <a class="sourceLine" id="cb11-3" data-line-number="3">}</a>
