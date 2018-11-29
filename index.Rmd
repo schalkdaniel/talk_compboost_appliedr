@@ -1,7 +1,7 @@
 ---
 title: "<code>compboost</code>"
 subtitle: "Fast and Flexible Component-Wise Boosting"
-author: "<a href='danielschalk.com' target='_blank'>Daniel Schalk</a>"
+author: "<a href='https://danielschalk.com' target='_blank'>Daniel Schalk</a>"
 date: "November 29, 2018<div style='margin-top:50px;'><a href='https://github.com/schalkdaniel' target='_blank'><i style='margin-right:70px;' class='fab fa-github fa-3x'></i></a><a href='https://twitter.com/DanielSchalk242' target='_blank'><i class='fab fa-twitter fa-3x'></i></a></div>"
 output:
   revealjs::revealjs_presentation:
@@ -377,7 +377,7 @@ cboost = boostSplines(data = mulled_wine_data[,-1],
 Slides were created with:
 
 - [**revealjs**](https://revealjs.com/)
-- [**Font-Awesome**](https://www.google.com)
+- [**Font-Awesome**](https://fontawesome.com/)
 - [**rmarkdown**](https://rmarkdown.rstudio.com/)
 - [**revealjs (R Package)**](https://cran.r-project.org/web/packages/revealjs/index.html)
 - [**Google Fonts**](https://fonts.google.com/)
